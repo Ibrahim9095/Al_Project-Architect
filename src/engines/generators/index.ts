@@ -3,6 +3,7 @@
  *
  * Phase 4.2.1: PROJECT.md
  * Phase 4.2.2: REQUIREMENTS.md
+ * Phase 4.2.3: BUSINESS_RULES.md
  * Other generators are intentionally not implemented.
  */
 
@@ -35,3 +36,18 @@ export type {
   RequirementsDocumentValidationResult,
   GenerateRequirementsDocumentResult,
 } from "./requirements";
+
+export {
+  BusinessRulesDocumentGenerator,
+  createBusinessRulesDocumentGenerator,
+  generateBusinessRulesDocument,
+  extractBusinessRulesSource,
+  renderBusinessRulesMarkdown,
+  validateBusinessRulesDocument,
+} from "./business-rules";
+
+export type {
+  BusinessRulesDocumentSource,
+  BusinessRulesDocumentValidationResult,
+  GenerateBusinessRulesDocumentResult,
+} from "./business-rules";
