@@ -41,7 +41,7 @@ Not applicable — scoped implementation task.
 ## Commit SHA
 
 Implementation: `d4b78fbdd80ed0229ed06bf1eba5f9af9a681c9a`  
-Branch tip: `cd883db` (pending final)
+Branch tip: `4249b1a95c092275e4eae50cb54f18e1607b11ba`
 
 ## Pull Request Number
 
