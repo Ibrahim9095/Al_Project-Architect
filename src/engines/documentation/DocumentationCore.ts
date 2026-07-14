@@ -1,5 +1,5 @@
-import type { EngineeringModel } from "../analysis/types.js";
-import type { DocumentGenerator } from "./contracts/DocumentGenerator.js";
+import type { EngineeringModel } from "../analysis/types";
+import type { DocumentGenerator } from "./contracts/DocumentGenerator";
 import {
   approvePipeline,
   blockStage,
@@ -12,11 +12,11 @@ import {
   DOCUMENTATION_PIPELINE_CONTRACT,
   DocumentRegistry,
   validateEngineeringModelForDocumentation,
-} from "./services/index.js";
+} from "./services/index";
 import type {
   DocumentationCoreOptions,
   DocumentationCoreResult,
-} from "./types.js";
+} from "./types";
 
 /**
  * Documentation Core — Phase 4.1

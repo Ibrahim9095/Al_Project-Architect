@@ -1,14 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { createAnalysisEngine } from "../../../src/engines/analysis/index.js";
-import { validateEngineeringModelForDocumentation } from "../../../src/engines/documentation/index.js";
-import { createCompleteDiscovery } from "../analysis/fixtures.js";
+import { validateEngineeringModelForDocumentation } from "@/engines/documentation";
+import { createCompleteEngineeringModel } from "./fixtures";
 
 describe("validateEngineeringModelForDocumentation", () => {
   it("passes a complete Engineering Model", () => {
-    const model = createAnalysisEngine().analyze(
-      createCompleteDiscovery(),
-    ).engineeringModel;
-
+    const model = createCompleteEngineeringModel();
     const result = validateEngineeringModelForDocumentation(model);
     expect(result.passed).toBe(true);
     expect(result.issues).toEqual([]);

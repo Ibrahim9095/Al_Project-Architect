@@ -1,15 +1,15 @@
-export { validateEngineeringModelForDocumentation } from "./EngineeringModelGate.js";
+export { validateEngineeringModelForDocumentation } from "./EngineeringModelGate";
 export {
   DocumentRegistry,
   createDocumentRegistry,
-} from "./DocumentRegistry.js";
-export { buildTraceabilityMap } from "./TraceabilityService.js";
-export { buildDocumentPlan } from "./DocumentPlanService.js";
+} from "./DocumentRegistry";
+export { buildTraceabilityMap } from "./TraceabilityService";
+export { buildDocumentPlan } from "./DocumentPlanService";
 export {
   DOCUMENTATION_PIPELINE_CONTRACT,
   approvePipeline,
   blockStage,
   completeStage,
   createInitialPipelineState,
-} from "./DocumentationPipeline.js";
-export { createDocumentationContext } from "./DocumentationContextFactory.js";
+} from "./DocumentationPipeline";
+export { createDocumentationContext } from "./DocumentationContextFactory";

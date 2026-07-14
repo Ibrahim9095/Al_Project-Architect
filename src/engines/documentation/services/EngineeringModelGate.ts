@@ -1,9 +1,9 @@
-import type { EngineeringModel } from "../../analysis/types.js";
-import { REQUIRED_ENGINEERING_MODEL_SECTIONS } from "../constants.js";
+import type { EngineeringModel } from "../../analysis/types";
+import { REQUIRED_ENGINEERING_MODEL_SECTIONS } from "../constants";
 import type {
   DocumentationModelValidationResult,
   DocumentationValidationIssue,
-} from "../types.js";
+} from "../types";
 
 function issue(
   code: string,
@@ -39,7 +39,7 @@ export function validateEngineeringModelForDocumentation(
     };
   }
 
-  if (!model.projectClassification?.level) {
+  if (!model.projectClassification?.complexityLevel) {
     issues.push(
       issue(
         "DOC_MODEL_CLASSIFICATION",
@@ -60,8 +60,8 @@ export function validateEngineeringModelForDocumentation(
       ),
     );
   } else if (
-    model.projectClassification?.level &&
-    model.complexityLevel !== model.projectClassification.level
+    model.projectClassification?.complexityLevel &&
+    model.complexityLevel !== model.projectClassification.complexityLevel
   ) {
     issues.push(
       issue(

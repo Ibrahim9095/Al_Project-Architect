@@ -1,4 +1,4 @@
-import type { DocumentDescriptor, DocumentTypeId } from "./types.js";
+import type { DocumentDescriptor, DocumentTypeId } from "./types";
 
 /**
  * Catalog of documents the pipeline may plan.

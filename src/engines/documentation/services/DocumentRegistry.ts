@@ -1,6 +1,6 @@
-import type { DocumentGenerator } from "../contracts/DocumentGenerator.js";
-import { isDocumentGenerator } from "../contracts/DocumentGenerator.js";
-import type { DocumentTypeId } from "../types.js";
+import type { DocumentGenerator } from "../contracts/DocumentGenerator";
+import { isDocumentGenerator } from "../contracts/DocumentGenerator";
+import type { DocumentTypeId } from "../types";
 
 /**
  * Registry for future document generator contracts.

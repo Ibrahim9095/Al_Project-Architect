@@ -1,32 +1,23 @@
-import { readFileSync, readdirSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import {
-  createAnalysisEngine,
-  type DiscoveryOutput,
-} from "../../../src/engines/analysis/index.js";
-import { createDocumentationCore } from "../../../src/engines/documentation/index.js";
+import { buildEngineeringModel } from "@/engines/analysis";
+import { createDocumentationCore } from "@/engines/documentation";
+import { createCompleteNormalizedDiscovery } from "./fixtures";
 
-const fixturesDir = join(
-  dirname(fileURLToPath(import.meta.url)),
-  "../analysis/fixtures/discovery",
-);
+const domains = ["clinic", "ecommerce", "crm"] as const;
 
-describe("Documentation Core against Analysis fixtures", () => {
-  const analysis = createAnalysisEngine();
+describe("Documentation Core against Analysis Engineering Model", () => {
   const core = createDocumentationCore();
 
-  const fixtures = readdirSync(fixturesDir)
-    .filter((file) => file.endsWith(".json"))
-    .sort();
+  for (const domain of domains) {
+    it(`prepares documentation core for ${domain} without generating documents`, () => {
+      const discovery = createCompleteNormalizedDiscovery();
+      discovery.project.type = domain;
+      discovery.project.typeLabel = domain;
+      discovery.metadata.projectTypeId = domain;
 
-  for (const file of fixtures) {
-    it(`prepares documentation core for ${file} without generating documents`, () => {
-      const discovery = JSON.parse(
-        readFileSync(join(fixturesDir, file), "utf8"),
-      ) as DiscoveryOutput;
-      const model = analysis.analyze(discovery).engineeringModel;
+      const model = buildEngineeringModel(discovery, {
+        createdAt: "2026-07-14T10:00:00.000Z",
+      });
       const result = core.prepare(model);
 
       expect(result.accepted).toBe(true);

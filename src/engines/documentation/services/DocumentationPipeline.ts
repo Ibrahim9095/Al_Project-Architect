@@ -2,7 +2,7 @@ import type {
   DocumentationPipelineStage,
   DocumentationPipelineStageId,
   DocumentationPipelineState,
-} from "../types.js";
+} from "../types";
 
 const STAGE_DEFINITIONS: Array<{
   id: DocumentationPipelineStageId;

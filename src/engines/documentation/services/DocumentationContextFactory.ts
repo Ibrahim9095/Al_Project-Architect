@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
-import type { EngineeringModel } from "../../analysis/types.js";
-import type { DocumentationContext } from "../types.js";
+import type { EngineeringModel } from "../../analysis/types";
+import type { DocumentationContext } from "../types";
 
 function fingerprint(model: EngineeringModel): string {
   const payload = JSON.stringify(model);

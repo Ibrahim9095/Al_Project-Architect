@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-project-architect.local/schemas/discovery.normalized.schema.json",
+  "title": "NormalizedDiscovery",
+  "description": "Canonical Discovery Schema. Official contract between Discovery and every future engine.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "project",
+    "roles",
+    "modules",
+    "features",
+    "businessRules",
+    "database",
+    "api",
+    "integrations",
+    "ui",
+    "deployment",
+    "metadata"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "project": {
+      "type": "object",
+      "required": ["id", "name", "type", "typeLabel", "businessGoal", "languages"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "minLength": 1 },
+        "typeLabel": { "type": "string", "minLength": 1 },
+        "businessGoal": { "type": "string" },
+        "languages": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" }
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" }
+        }
+      }
+    },
+    "features": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" }
+        }
+      }
+    },
+    "businessRules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "inferred", "confirmed"]
+          }
+        }
+      }
+    },
+    "database": {
+      "type": "object",
+      "required": ["entities", "notes"],
+      "properties": {
+        "entities": { "type": "array" },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "api": {
+      "type": "object",
+      "required": ["resources", "notes"],
+      "properties": {
+        "resources": { "type": "array" },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "integrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["selected", "optional"]
+          }
+        }
+      }
+    },
+    "ui": {
+      "type": "object",
+      "required": ["platforms", "languages", "notes"],
+      "properties": {
+        "platforms": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "languages": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "deployment": {
+      "type": "object",
+      "required": ["environments", "strategy", "notes"],
+      "properties": {
+        "environments": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "strategy": { "type": "string", "minLength": 1 },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": [
+        "createdAt",
+        "updatedAt",
+        "source",
+        "schemaVersion",
+        "projectTypeId",
+        "sessionHints"
+      ],
+      "properties": {
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "source": { "type": "string", "const": "discovery-wizard" },
+        "schemaVersion": { "type": "string", "const": "1.0.0" },
+        "projectTypeId": { "type": "string", "minLength": 1 },
+        "sessionHints": {
+          "type": "object",
+          "required": [
+            "hasRoles",
+            "hasModules",
+            "hasFeatures",
+            "hasLanguages",
+            "hasIntegrations"
+          ],
+          "properties": {
+            "hasRoles": { "type": "boolean" },
+            "hasModules": { "type": "boolean" },
+            "hasFeatures": { "type": "boolean" },
+            "hasLanguages": { "type": "boolean" },
+            "hasIntegrations": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,21 +1,21 @@
-import type { EngineeringModel } from "../../analysis/types.js";
+import type { EngineeringModel } from "../../analysis/types";
 import {
   CORE_DOCUMENT_TYPES,
   DOCUMENT_CATALOG,
-} from "../constants.js";
-import type { DocumentRegistry } from "./DocumentRegistry.js";
-import type { DocumentDescriptor, DocumentPlan, DocumentTypeId } from "../types.js";
+} from "../constants";
+import type { DocumentRegistry } from "./DocumentRegistry";
+import type { DocumentDescriptor, DocumentPlan, DocumentTypeId } from "../types";
 
 function documentsForComplexity(
   level: EngineeringModel["complexityLevel"],
 ): DocumentTypeId[] {
   const core = [...CORE_DOCUMENT_TYPES];
 
-  if (level === "Tiny") {
+  if (level === "tiny") {
     return ["PROJECT", "REQUIREMENTS", "MODULES", "TASKS"];
   }
 
-  if (level === "Small") {
+  if (level === "small") {
     return [...core, "PERSONAS", "TESTING"];
   }
 

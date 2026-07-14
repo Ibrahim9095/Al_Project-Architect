@@ -1,5 +1,5 @@
-import type { EngineeringModel } from "../../analysis/types.js";
-import type { TraceabilityLink, TraceabilityMap } from "../types.js";
+import type { EngineeringModel } from "../../analysis/types";
+import type { TraceabilityLink, TraceabilityMap } from "../types";
 
 /**
  * Maps Engineering Model sections to planned document types.
@@ -10,7 +10,7 @@ export function buildTraceabilityMap(model: EngineeringModel): TraceabilityMap {
     {
       modelSection: "projectClassification",
       documentType: "PROJECT",
-      artifactIds: [model.projectClassification.level],
+      artifactIds: [model.projectClassification.complexityLevel],
     },
     {
       modelSection: "businessGoals",
@@ -55,12 +55,12 @@ export function buildTraceabilityMap(model: EngineeringModel): TraceabilityMap {
     {
       modelSection: "databaseCandidates",
       documentType: "DATABASE",
-      artifactIds: model.databaseCandidates.map((item) => item.entity),
+      artifactIds: model.databaseCandidates.map((item) => item.id),
     },
     {
       modelSection: "apiCandidates",
       documentType: "API",
-      artifactIds: model.apiCandidates.map((item) => item.resource),
+      artifactIds: model.apiCandidates.map((item) => item.id),
     },
     {
       modelSection: "features",
@@ -75,7 +75,7 @@ export function buildTraceabilityMap(model: EngineeringModel): TraceabilityMap {
     {
       modelSection: "securityRequirements",
       documentType: "REQUIREMENTS",
-      artifactIds: model.securityRequirements.map((_, index) => `SEC-${index + 1}`),
+      artifactIds: model.securityRequirements.map((item) => item.id),
     },
     {
       modelSection: "complexityLevel",

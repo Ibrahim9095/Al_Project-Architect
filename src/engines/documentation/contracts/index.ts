@@ -3,5 +3,5 @@ export type {
   DocumentGeneratorInput,
   DocumentGeneratorOutput,
   DocumentGeneratorValidation,
-} from "./DocumentGenerator.js";
-export { isDocumentGenerator } from "./DocumentGenerator.js";
+} from "./DocumentGenerator";
+export { isDocumentGenerator } from "./DocumentGenerator";

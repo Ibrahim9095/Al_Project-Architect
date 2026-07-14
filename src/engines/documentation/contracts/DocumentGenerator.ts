@@ -5,12 +5,12 @@
  * No concrete PROJECT/REQUIREMENTS/... generators are implemented.
  */
 
-import type { EngineeringModel } from "../../analysis/types.js";
+import type { EngineeringModel } from "../../analysis/types";
 import type {
   DocumentationContext,
   DocumentDescriptor,
   DocumentTypeId,
-} from "../types.js";
+} from "../types";
 
 /**
  * Input every future generator must accept.

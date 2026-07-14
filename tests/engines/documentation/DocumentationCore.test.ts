@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { createAnalysisEngine } from "../../../src/engines/analysis/index.js";
 import {
   createDocumentationCore,
   DOCUMENTATION_PIPELINE_CONTRACT,
@@ -7,12 +6,11 @@ import {
   type DocumentGenerator,
   type DocumentationContext,
   type DocumentGeneratorInput,
-} from "../../../src/engines/documentation/index.js";
-import { createCompleteDiscovery } from "../analysis/fixtures.js";
+} from "@/engines/documentation";
+import { createCompleteEngineeringModel } from "./fixtures";
 
 describe("DocumentationCore", () => {
-  const analysis = createAnalysisEngine();
-  const model = analysis.analyze(createCompleteDiscovery()).engineeringModel;
+  const model = createCompleteEngineeringModel();
 
   it("accepts and validates an Engineering Model without generating documents", () => {
     const core = createDocumentationCore();
@@ -56,7 +54,9 @@ describe("DocumentationCore", () => {
       result.plan!.documents.length,
     );
     expect(
-      result.plan!.documents.every((document) => document.generatorRegistered === false),
+      result.plan!.documents.every(
+        (document) => document.generatorRegistered === false,
+      ),
     ).toBe(true);
   });
 
@@ -75,10 +75,10 @@ describe("DocumentationCore", () => {
       ...model,
       businessGoals: [],
       userRoles: [],
-      complexityLevel: "Small" as const,
+      complexityLevel: "small" as const,
       projectClassification: {
         ...model.projectClassification,
-        level: "Medium" as const,
+        complexityLevel: "medium" as const,
       },
     };
 
@@ -103,10 +103,13 @@ describe("DocumentationCore", () => {
         outputFileName: "PROJECT.md",
         generatorRegistered: true,
       },
-      canGenerate: (_context: DocumentationContext) => ({
-        passed: true,
-        issues: [],
-      }),
+      canGenerate: (_context: DocumentationContext) => {
+        void _context;
+        return {
+          passed: true,
+          issues: [],
+        };
+      },
       extractSource: (engineeringModel) => engineeringModel.businessGoals,
       generate: (input: DocumentGeneratorInput) => ({
         documentType: "PROJECT",
@@ -122,10 +125,10 @@ describe("DocumentationCore", () => {
 
     const result = core.prepare(model);
     expect(result.generatedDocuments).toEqual([]);
-    expect(result.plan?.documents.find((doc) => doc.id === "PROJECT")?.generatorRegistered).toBe(
-      true,
-    );
-    // Core still does not invoke generate()
+    expect(
+      result.plan?.documents.find((doc) => doc.id === "PROJECT")
+        ?.generatorRegistered,
+    ).toBe(true);
     expect(result.pipeline.readyForGenerators).toBe(false);
   });
 

@@ -1,486 +1,219 @@
+import type { EngineContext, EngineResult } from "../types";
+import type { NormalizedDiscovery } from "@/engines/contracts";
+import type { EngineeringModelSchemaVersion } from "./schema";
+
 /**
- * Analysis Engine types.
- *
- * Input contract is Discovery Output.
- * Output contract is verified engineering knowledge for Architecture Planning.
+ * Analysis Engine contracts.
+ * Consumes NormalizedDiscovery only.
+ * Produces an internal Engineering Model only.
  */
 
-export type Priority = "Critical" | "High" | "Medium" | "Low";
+export type ComplexityLevel =
+  | "tiny"
+  | "small"
+  | "medium"
+  | "large"
+  | "enterprise";
 
-export type Severity = "Critical" | "High" | "Medium" | "Low";
+export type AnalysisConfidence = "high" | "medium" | "low";
 
-export type DecisionConfidence =
-  | "Very High"
-  | "High"
-  | "Medium"
-  | "Low"
-  | "Unknown";
+export type RequirementPriority = "must" | "should" | "could";
 
-export type ReadinessScore =
-  | "Not Ready"
-  | "Partially Ready"
-  | "Mostly Ready"
-  | "Engineering Ready"
-  | "Architecture Ready"
-  | "Implementation Ready";
+export type RiskSeverity = "low" | "medium" | "high" | "critical";
 
-export type AnalysisStatus =
-  | "approved"
-  | "rejected"
-  | "needs_clarification";
+export type CandidateStatus = "inferred" | "placeholder" | "confirmed";
 
-export type RiskCategory =
-  | "Business Risk"
-  | "Technical Risk"
-  | "Architecture Risk"
-  | "Database Risk"
-  | "API Risk"
-  | "Security Risk"
-  | "Infrastructure Risk"
-  | "Performance Risk"
-  | "Scalability Risk"
-  | "Integration Risk"
-  | "Documentation Risk"
-  | "Operational Risk"
-  | "Maintenance Risk"
-  | "Compliance Risk";
-
-export type GapArea =
-  | "Requirements"
-  | "Business Rules"
-  | "User Roles"
-  | "Workflows"
-  | "Modules"
-  | "Database"
-  | "APIs"
-  | "Integrations"
-  | "Testing"
-  | "Documentation"
-  | "Technical Constraints"
-  | "Business Objectives";
-
-export type ConflictType =
-  | "Business Rule"
-  | "Requirement"
-  | "Permission"
-  | "Workflow"
-  | "Database"
-  | "API"
-  | "Architecture"
-  | "Integration"
-  | "Security"
-  | "Project Scope";
-
-export interface UserPersona {
-  id: string;
-  name: string;
-  role: string;
-  responsibilities?: string[];
-  permissions?: string[];
+export interface EngineeringDimensionScore {
+  dimension: string;
+  score: number;
+  rationale: string;
 }
 
-export interface Requirement {
-  id: string;
-  title: string;
-  description: string;
-  type: "functional" | "non-functional" | "business" | "technical";
-  category?: string;
-  userRoles?: string[];
-  businessObjective?: string;
-  businessValue?: string;
-  acceptanceCriteria?: string[];
-  dependencies?: string[];
-  relatedBusinessRules?: string[];
-  priority?: Priority;
-  inputs?: string[];
-  outputs?: string[];
-  nfrCategory?:
-    | "Performance"
-    | "Scalability"
-    | "Availability"
-    | "Reliability"
-    | "Security"
-    | "Accessibility"
-    | "Localization"
-    | "Maintainability"
-    | "Compliance"
-    | "Backup & Recovery";
-}
-
-export interface BusinessRule {
-  id: string;
-  name: string;
-  description: string;
-  category?: string;
-  relatedRequirements?: string[];
-  conditions?: string[];
-  outcomes?: string[];
-  exceptions?: string[];
-}
-
-export interface ProjectScope {
-  included: string[];
-  excluded?: string[];
-  constraints?: string[];
-  assumptions?: string[];
+export interface ProjectSummary {
+  projectId: string;
+  projectName: string;
+  projectType: string;
+  projectTypeLabel: string;
+  businessGoal: string;
+  languages: string[];
+  moduleCount: number;
+  featureCount: number;
+  roleCount: number;
+  integrationCount: number;
+  uiPlatforms: string[];
+  deploymentStrategy: string;
+  deploymentEnvironments: string[];
 }
 
 export interface ProjectClassification {
-  level: "Tiny" | "Small" | "Medium" | "Large" | "Enterprise";
-  engineeringComplexityScore?: number;
-  justification?: string;
-  confidence?: DecisionConfidence;
+  domain: string;
+  category: string;
+  engineeringComplexityScore: number;
+  complexityLevel: ComplexityLevel;
+  dimensionScores: EngineeringDimensionScore[];
+  rationale: string[];
 }
 
-export interface EngineeringProfile {
-  modules?: string[];
-  integrations?: string[];
-  securityRequirements?: string[];
-  scalabilityNotes?: string[];
-}
-
-export interface Workflow {
+export interface AnalyzedUserRole {
   id: string;
   name: string;
-  description?: string;
-  actors?: string[];
-  steps?: string[];
-  relatedRequirements?: string[];
+  responsibilities: string[];
+  accessScope: string;
+  source: "discovery";
 }
 
-export interface Integration {
+export interface AnalyzedModule {
   id: string;
   name: string;
-  purpose?: string;
-  provider?: string;
-  relatedRequirements?: string[];
+  purpose: string;
+  relatedFeatureIds: string[];
+  priority: RequirementPriority;
+  source: "discovery";
 }
 
-export interface ModuleHint {
-  id: string;
-  name: string;
-  responsibility?: string;
-  relatedRequirements?: string[];
-}
-
-export interface TaskPlanItem {
-  id: string;
-  title: string;
-  description?: string;
-  relatedRequirements?: string[];
-}
-
-export interface DiscoveredRisk {
-  id: string;
-  category: RiskCategory;
-  description: string;
-  probability?: Priority;
-  impact?: Priority;
-  affectedComponents?: string[];
-  mitigation?: string;
-}
-
-/**
- * Structured Discovery Output — official Analysis Engine input.
- */
-export interface DiscoveryOutput {
-  businessSummary: string;
-  vision: string;
-  scope: ProjectScope;
-  personas: UserPersona[];
-  requirements: Requirement[];
-  businessRules: BusinessRule[];
-  classification: ProjectClassification;
-  engineeringProfile?: EngineeringProfile;
-  architectureContext?: string;
-  taskPlanning?: TaskPlanItem[];
-  risks?: DiscoveredRisk[];
-  workflows?: Workflow[];
-  integrations?: Integration[];
-  modules?: ModuleHint[];
-  technicalConstraints?: string[];
-  successCriteria?: string[];
-  stakeholders?: string[];
-}
-
-export interface RequirementQualityFlags {
-  specific: boolean;
-  measurable: boolean;
-  complete: boolean;
-  consistent: boolean;
-  unambiguous: boolean;
-  traceable: boolean;
-  testable: boolean;
-  implementable: boolean;
-  maintainable: boolean;
-}
-
-export interface RequirementAnalysisItem {
-  requirementId: string;
-  approved: boolean;
-  quality: RequirementQualityFlags;
-  completenessIssues: string[];
-  feasibilityIssues: string[];
-  suggestedPriority: Priority;
-  engineeringComplexity: "XS" | "S" | "M" | "L" | "XL";
-}
-
-export interface RequirementAnalysisResult {
-  total: number;
-  approved: number;
-  rejected: number;
-  items: RequirementAnalysisItem[];
-  functionalCount: number;
-  nonFunctionalCount: number;
-  passed: boolean;
-}
-
-export interface EngineeringConflict {
-  id: string;
-  type: ConflictType;
-  description: string;
-  artifactIds: string[];
-  impact: Severity;
-  recommendation: string;
-  resolved: boolean;
-}
-
-export interface ConsistencyAnalysisResult {
-  conflicts: EngineeringConflict[];
-  crossDocumentIssues: string[];
-  passed: boolean;
-}
-
-export interface DependencyLink {
-  fromId: string;
-  toId: string;
-  kind:
-    | "requirement"
-    | "business-rule"
-    | "module"
-    | "workflow"
-    | "integration"
-    | "blocking";
-}
-
-export interface DependencyAnalysisResult {
-  links: DependencyLink[];
-  circularDependencies: string[][];
-  blockingRequirements: string[];
-  passed: boolean;
-}
-
-export interface AnalyzedRisk {
-  id: string;
-  category: RiskCategory;
-  description: string;
-  probability: Priority;
-  impact: Priority;
-  severity: Severity;
-  affectedComponents: string[];
-  mitigationStrategy: string;
-  status: "Open" | "Mitigated" | "Accepted" | "Needs Clarification";
-  recommendation: string;
-}
-
-export interface RiskAnalysisResult {
-  risks: AnalyzedRisk[];
-  criticalCount: number;
-  passed: boolean;
-}
-
-export interface EngineeringGap {
-  id: string;
-  area: GapArea;
-  description: string;
-  severity: Severity;
-  businessImpact: string;
-  engineeringImpact: string;
-  recommendedAction: string;
-  requiredInformation: string;
-  status: "Open" | "Resolved";
-}
-
-export interface GapAnalysisResult {
-  gaps: EngineeringGap[];
-  criticalCount: number;
-  passed: boolean;
-}
-
-export interface ValidationCheck {
-  name: string;
-  passed: boolean;
-  reason?: string;
-}
-
-export interface ValidationResult {
-  business: ValidationCheck[];
-  requirements: ValidationCheck[];
-  businessRules: ValidationCheck[];
-  dependencies: ValidationCheck[];
-  risks: ValidationCheck[];
-  documentation: ValidationCheck[];
-  passed: boolean;
-  failures: ValidationCheck[];
-}
-
-export interface ReadinessAssessment {
-  businessReady: boolean;
-  requirementsReady: boolean;
-  architectureReady: boolean;
-  databaseReady: boolean;
-  apiReady: boolean;
-  testingReady: boolean;
-  documentationReady: boolean;
-  implementationReady: boolean;
-  releaseReady: boolean;
-  score: ReadinessScore;
-}
-
-export interface EngineeringRecommendation {
-  id: string;
-  problem: string;
-  analysis: string;
-  recommendedSolution: string;
-  benefits: string[];
-  risks: string[];
-  alternatives: string[];
-  priority: Priority;
-  impact: Severity;
-}
-
-export interface ArchitectureReadinessReport {
-  businessAnalysisComplete: boolean;
-  requirementsComplete: boolean;
-  businessRulesComplete: boolean;
-  dependenciesIdentified: boolean;
-  risksEvaluated: boolean;
-  classificationCompleted: boolean;
-  documentationReady: boolean;
-  engineeringConfidenceHigh: boolean;
-  ready: boolean;
-  blockers: string[];
-}
-
-export interface EngineeringSummaryReport {
-  projectOverview: string;
-  businessObjectives: string;
-  engineeringComplexity: string;
-  majorRequirements: string[];
-  majorBusinessRules: string[];
-  projectRisks: string[];
-  projectClassification: string;
-  engineeringReadiness: ReadinessScore;
-  recommendedNextPhase:
-    | "Architecture Planning"
-    | "Return to Discovery"
-    | "Clarification Required";
-}
-
-export interface AnalysisReports {
-  businessAnalysis: string;
-  requirementAnalysis: string;
-  consistency: string;
-  dependency: string;
-  riskAssessment: string;
-  gapAnalysis: string;
-  architectureReadiness: ArchitectureReadinessReport;
-  engineeringSummary: EngineeringSummaryReport;
-  impact?: string;
-}
-
-export interface QualityGateResult {
-  name: string;
-  passed: boolean;
-}
-
-
-export interface EngineeringFeature {
+export interface AnalyzedFeature {
   id: string;
   name: string;
   description: string;
-  requirementIds: string[];
-  moduleId?: string;
-  priority: Priority;
+  relatedModuleIds: string[];
+  priority: RequirementPriority;
+  source: "discovery";
+}
+
+export interface AnalyzedBusinessRule {
+  id: string;
+  description: string;
+  status: "draft" | "inferred" | "confirmed";
+  relatedModuleIds: string[];
+  source: "discovery" | "analysis-inference";
 }
 
 export interface DatabaseCandidate {
-  entity: string;
+  id: string;
+  name: string;
+  entityType: "core" | "module" | "relationship" | "audit";
   description: string;
-  source: string;
-  relatedModules: string[];
-  relatedRequirements: string[];
+  status: CandidateStatus;
+  relatedModuleIds: string[];
 }
 
 export interface ApiCandidate {
-  resource: string;
-  operations: Array<"GET" | "POST" | "PUT" | "PATCH" | "DELETE">;
+  id: string;
+  name: string;
+  methodHints: string[];
+  pathHint: string;
   description: string;
-  relatedRequirements: string[];
-  relatedModules: string[];
+  status: CandidateStatus;
+  relatedModuleIds: string[];
+}
+
+export interface ExternalIntegration {
+  id: string;
+  name: string;
+  purpose: string;
+  status: "selected" | "optional" | "recommended";
+  riskNotes: string[];
+}
+
+export interface SecurityRequirement {
+  id: string;
+  category:
+    | "authentication"
+    | "authorization"
+    | "data-protection"
+    | "compliance"
+    | "audit";
+  description: string;
+  priority: RequirementPriority;
+  rationale: string;
+}
+
+export interface NonFunctionalRequirement {
+  id: string;
+  category:
+    | "performance"
+    | "scalability"
+    | "availability"
+    | "usability"
+    | "maintainability"
+    | "observability"
+    | "deployment";
+  description: string;
+  priority: RequirementPriority;
+}
+
+export interface EngineeringRisk {
+  id: string;
+  title: string;
+  description: string;
+  severity: RiskSeverity;
+  mitigation: string;
+}
+
+export interface RecommendedTechnologyStack {
+  frontend: string[];
+  backend: string[];
+  database: string[];
+  infrastructure: string[];
+  aiServices: string[];
+  rationale: string[];
+  notes: string[];
+}
+
+export interface EngineeringModelMetadata {
+  createdAt: string;
+  sourceEngine: "analysis";
+  schemaVersion: EngineeringModelSchemaVersion;
+  discoverySchemaVersion: string;
+  analysisConfidence: AnalysisConfidence;
+  inputProjectId: string;
+  warnings: string[];
 }
 
 /**
- * Verified Engineering Model produced by the Analysis Engine.
- * This is the structured handoff artifact for Architecture Planning.
+ * Internal Engineering Model.
+ * Must never be emitted as Markdown documentation or a repository.
  */
 export interface EngineeringModel {
+  schemaVersion: EngineeringModelSchemaVersion;
+  projectSummary: ProjectSummary;
   projectClassification: ProjectClassification;
   businessGoals: string[];
-  userRoles: Array<{
-    id: string;
-    name: string;
-    role: string;
-    responsibilities: string[];
-    permissions: string[];
-  }>;
-  modules: Array<{
-    id: string;
-    name: string;
-    responsibility: string;
-    relatedRequirements: string[];
-    featureIds: string[];
-  }>;
-  features: EngineeringFeature[];
-  businessRules: BusinessRule[];
+  userRoles: AnalyzedUserRole[];
+  modules: AnalyzedModule[];
+  features: AnalyzedFeature[];
+  businessRules: AnalyzedBusinessRule[];
   databaseCandidates: DatabaseCandidate[];
   apiCandidates: ApiCandidate[];
-  externalIntegrations: Array<{
-    id: string;
-    name: string;
-    purpose: string;
-    provider: string;
-    relatedRequirements: string[];
-  }>;
-  securityRequirements: string[];
-  nonFunctionalRequirements: Array<{
-    id: string;
-    title: string;
-    description: string;
-    category: string;
-    priority: Priority;
-  }>;
-  complexityLevel: ProjectClassification["level"];
+  externalIntegrations: ExternalIntegration[];
+  securityRequirements: SecurityRequirement[];
+  nonFunctionalRequirements: NonFunctionalRequirement[];
+  risks: EngineeringRisk[];
+  complexityLevel: ComplexityLevel;
+  recommendedTechnologyStack: RecommendedTechnologyStack;
+  metadata: EngineeringModelMetadata;
 }
 
-/**
- * Complete Analysis Engine result — handoff to Architecture Engine when approved.
- */
-export interface AnalysisResult {
-  status: AnalysisStatus;
-  readinessScore: ReadinessScore;
-  confidence: DecisionConfidence;
-  requirementAnalysis: RequirementAnalysisResult;
-  consistencyAnalysis: ConsistencyAnalysisResult;
-  dependencyAnalysis: DependencyAnalysisResult;
-  riskAnalysis: RiskAnalysisResult;
-  gapAnalysis: GapAnalysisResult;
-  validation: ValidationResult;
-  readiness: ReadinessAssessment;
-  qualityGates: QualityGateResult[];
-  recommendations: EngineeringRecommendation[];
-  reports: AnalysisReports;
-  engineeringModel: EngineeringModel;
-  approvedForArchitecture: boolean;
-  analyzedAt: string;
+export interface AnalysisValidationResult {
+  valid: boolean;
+  errors: string[];
+}
+
+export interface AnalysisEngineInput {
+  action: "analyze";
+  discovery: NormalizedDiscovery | unknown;
+}
+
+export type AnalysisEngineOutput = EngineeringModel;
+
+export interface IAnalysisService {
+  readonly serviceId: "analysis.service";
+  readonly engineId: "analysis";
+
+  validateInput(discovery: unknown): AnalysisValidationResult;
+
+  analyze(
+    discovery: NormalizedDiscovery,
+    context: EngineContext,
+  ): Promise<EngineResult<EngineeringModel>>;
 }
