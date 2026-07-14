@@ -153,3 +153,15 @@ export type {
   RequirementsDocumentValidationResult,
   GenerateRequirementsDocumentResult,
 } from "./generators";
+
+/** Phase 4.2.3 — BUSINESS_RULES.md generator. */
+export {
+  BusinessRulesDocumentGenerator,
+  createBusinessRulesDocumentGenerator,
+  generateBusinessRulesDocument,
+} from "./generators";
+export type {
+  BusinessRulesDocumentSource,
+  BusinessRulesDocumentValidationResult,
+  GenerateBusinessRulesDocumentResult,
+} from "./generators";

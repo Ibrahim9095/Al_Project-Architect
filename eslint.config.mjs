@@ -9,17 +9,32 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
+/**
+ * Global ignores MUST be first in flat config.
+ * Otherwise ESLint may walk `.next/**` build artifacts and large
+ * non-source trees before ignore rules apply, which can hang lint.
+ */
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     ignores: [
-      "node_modules/**",
-      ".next/**",
-      "out/**",
-      "build/**",
+      "**/node_modules/**",
+      "**/.next/**",
+      "**/out/**",
+      "**/build/**",
+      "**/dist/**",
+      "**/coverage/**",
+      "**/tmp/**",
+      "docs/**",
+      "prompts/**",
+      "templates/**",
+      "knowledge/**",
+      "reports/**",
+      "schemas/**",
+      "package-lock.json",
       "next-env.d.ts",
     ],
   },
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
 ];
 
 export default eslintConfig;
