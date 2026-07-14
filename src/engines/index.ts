@@ -153,3 +153,15 @@ export type {
   RequirementsDocumentValidationResult,
   GenerateRequirementsDocumentResult,
 } from "./generators";
+
+/** Phase 4.2.5 — DATABASE.md generator. */
+export {
+  DatabaseDocumentGenerator,
+  createDatabaseDocumentGenerator,
+  generateDatabaseDocument,
+} from "./generators";
+export type {
+  DatabaseDocumentSource,
+  DatabaseDocumentValidationResult,
+  GenerateDatabaseDocumentResult,
+} from "./generators";
