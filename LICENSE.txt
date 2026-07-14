@@ -1,0 +1,424 @@
+AI Project Architect
+
+LICENSE.txt
+
+Version: 1.0.0
+
+---
+
+Part 1 — Proprietary Software License
+
+Copyright (c) 2026 AI Project Architect.
+
+All Rights Reserved.
+
+---
+
+# 1. Purpose
+
+This License governs the use, modification, distribution, reproduction, commercialization, and access to AI Project Architect.
+
+Unless explicitly stated otherwise in writing by the Copyright Owner, all rights are reserved.
+
+This software is proprietary.
+
+No rights are granted except those explicitly defined in this License.
+
+---
+
+# 2. Ownership
+
+AI Project Architect, including but not limited to:
+
+- Source Code
+- Documentation
+- Engineering Standards
+- AI Workflows
+- AI Agent System
+- AGENTS.md
+- README.md
+- CHANGELOG.md
+- Engineering Documents
+- Architecture
+- Prompt Libraries
+- Templates
+- Knowledge Assets
+- Repository Structure
+- Export System
+- Engineering Methodology
+
+is the exclusive intellectual property of its Copyright Owner.
+
+Ownership is not transferred by downloading, viewing, cloning, or accessing the repository.
+
+---
+
+# 3. Intellectual Property
+
+All copyrights, trademarks, engineering methodologies, documentation, software architecture, repository structures, prompts, workflows, engineering standards, and supporting materials remain the exclusive property of the Copyright Owner.
+
+Nothing contained within this repository grants ownership rights to any individual or organization.
+
+---
+
+# 4. Permitted Use
+
+Unless separate written permission has been granted, users may only:
+
+- View the repository.
+- Evaluate the engineering methodology.
+- Learn from the published concepts.
+
+No additional rights are granted.
+
+---
+
+# 5. Prohibited Use
+
+The following actions are strictly prohibited without prior written authorization from the Copyright Owner.
+
+- Copying the project.
+- Redistributing the project.
+- Selling the project.
+- Commercial use.
+- Republishing the project.
+- Creating derivative works.
+- Removing copyright notices.
+- Reverse engineering proprietary workflows.
+- Using project assets in commercial software.
+- Creating competing products using this project.
+- Training AI models using this repository.
+- Using any engineering documentation to generate competing platforms.
+- Offering AI Project Architect as a service.
+- Packaging this project inside commercial products.
+- Licensing this project to third parties.
+
+Violation of these terms constitutes copyright infringement.
+
+---
+---
+
+Part 2 — Commercial Use, Distribution & AI Restrictions
+
+# 6. Commercial Use
+
+Commercial use of AI Project Architect is prohibited unless explicit written permission has been granted by the Copyright Owner.
+
+Commercial use includes, but is not limited to:
+
+- Selling the software.
+- Selling modified versions.
+- Selling generated repositories.
+- Offering the software as a paid service.
+- Bundling the software into commercial products.
+- Providing hosted versions.
+- Selling engineering templates.
+- Selling AI-generated outputs derived from this project.
+- Providing consulting services that redistribute proprietary project assets.
+
+Commercial licenses may be granted separately under negotiated agreements.
+
+---
+
+# 7. Redistribution
+
+Redistribution of any part of AI Project Architect is prohibited.
+
+This includes:
+
+- Source code.
+- Documentation.
+- Repository templates.
+- Prompt libraries.
+- Engineering standards.
+- AI Agent workflows.
+- Architecture documents.
+- Generated engineering assets.
+- Export packages.
+
+Redistribution in modified or unmodified form is prohibited without written permission.
+
+---
+
+# 8. Modification
+
+Modification of AI Project Architect is not permitted without authorization.
+
+Authorized modifications remain subject to this License unless otherwise agreed in writing.
+
+Unauthorized modified versions may not be:
+
+- Published.
+- Distributed.
+- Commercialized.
+- Licensed.
+- Sold.
+- Shared publicly.
+
+---
+
+# 9. AI Training Restrictions
+
+AI Project Architect may not be used for training, fine-tuning, benchmarking, evaluating, or improving any Artificial Intelligence model without prior written authorization.
+
+This restriction applies to:
+
+- Large Language Models (LLMs)
+- Machine Learning Models
+- AI Coding Assistants
+- Dataset Generation
+- Synthetic Data Creation
+- Prompt Libraries
+- Retrieval Systems
+- Knowledge Bases
+
+No portion of this repository may be incorporated into AI training datasets.
+
+---
+
+# 10. SaaS Restrictions
+
+AI Project Architect may not be offered as:
+
+- Software as a Service (SaaS)
+- Platform as a Service (PaaS)
+- Engineering Service
+- API Service
+- Hosted Documentation Platform
+- AI Project Generator
+- AI Requirements Platform
+
+without explicit written authorization.
+
+---
+
+# 11. Third-Party Integrations
+
+Third-party integrations are permitted only when they do not:
+
+- Redistribute proprietary assets.
+- Expose confidential engineering knowledge.
+- Circumvent this License.
+- Transfer ownership.
+- Enable unauthorized commercial use.
+
+Every integration must preserve the intellectual property rights of the Copyright Owner.
+
+---
+
+# 12. Open Source Components
+
+AI Project Architect may include third-party open-source software.
+
+Such software remains governed by its respective licenses.
+
+This License applies only to the original intellectual property created for AI Project Architect.
+
+Nothing in this License overrides the terms of any applicable third-party license.
+
+---
+
+# 13. Reservation of Rights
+
+All rights not expressly granted by this License are reserved exclusively by the Copyright Owner.
+
+No implied license, waiver, transfer of ownership, or permission shall be inferred from access to this repository or its contents.
+---
+
+Part 3 — Warranty, Liability, Termination & Governing Law
+
+# 14. Warranty Disclaimer
+
+AI Project Architect is provided "AS IS" and "AS AVAILABLE."
+
+To the fullest extent permitted by applicable law, the Copyright Owner makes no warranties, whether express or implied, including but not limited to:
+
+- Merchantability
+- Fitness for a particular purpose
+- Non-infringement
+- Continuous availability
+- Error-free operation
+- Compatibility with third-party software
+
+The user assumes all risks associated with the use of this software.
+
+---
+
+# 15. Limitation of Liability
+
+Under no circumstances shall the Copyright Owner be liable for any direct, indirect, incidental, consequential, special, exemplary, or punitive damages arising from:
+
+- Use of the software.
+- Inability to use the software.
+- Data loss.
+- Business interruption.
+- Lost profits.
+- Security incidents.
+- Software defects.
+- Incorrect engineering decisions made by users.
+- Third-party integrations.
+
+This limitation applies regardless of the legal theory under which liability is claimed.
+
+---
+
+# 16. User Responsibilities
+
+Every user is responsible for:
+
+- Verifying generated engineering documentation.
+- Reviewing AI-generated outputs.
+- Testing generated software.
+- Validating business requirements.
+- Protecting confidential information.
+- Complying with all applicable laws.
+
+AI-generated content must always be reviewed by qualified professionals before production use.
+
+---
+
+# 17. Confidential Information
+
+Users may not disclose or distribute confidential engineering methodologies, proprietary workflows, internal documentation, prompt libraries, or unpublished project materials without written authorization.
+
+Any confidential information obtained through authorized access must remain confidential unless otherwise permitted in writing.
+
+---
+
+# 18. Termination
+
+Any violation of this License immediately terminates all granted rights.
+
+Upon termination, the user must immediately:
+
+- Stop using the software.
+- Stop distributing project assets.
+- Remove unauthorized copies.
+- Destroy any unauthorized reproductions.
+- Cease all commercial activities related to AI Project Architect.
+
+Termination does not limit any other legal rights available to the Copyright Owner.
+
+---
+
+# 19. Enforcement
+
+The Copyright Owner reserves the right to enforce this License through any lawful means.
+
+Violations may result in:
+
+- License termination.
+- Removal requests.
+- Copyright enforcement.
+- Legal proceedings.
+- Claims for damages.
+- Injunctive relief.
+
+Failure to enforce any provision at one time does not constitute a waiver of future enforcement.
+
+---
+
+# 20. Governing Law
+
+This License shall be governed and interpreted in accordance with the laws of the jurisdiction selected by the Copyright Owner.
+
+Any disputes arising under this License shall be resolved in the competent courts of the applicable jurisdiction unless otherwise agreed in writing by both parties.
+
+---
+
+# 21. Severability
+
+If any provision of this License is found to be invalid, illegal, or unenforceable, the remaining provisions shall remain in full force and effect.
+
+The invalid provision shall be interpreted as closely as possible to reflect its original intent while preserving the validity of the remaining License.
+---
+
+Part 4 — Final Legal Provisions & Completion Statement
+
+# 22. Trademark
+
+"AI Project Architect", its name, branding, logos, engineering identity, documentation structure, AI Agent architecture, and associated visual elements are the exclusive intellectual property of the Copyright Owner.
+
+Nothing in this License grants permission to use the project's name, trademarks, branding, or identity for commercial or public purposes without prior written authorization.
+
+---
+
+# 23. Future License Updates
+
+The Copyright Owner reserves the right to publish future versions of this License.
+
+Future versions may introduce:
+
+- Additional permissions
+- Additional restrictions
+- Commercial licensing options
+- Enterprise licensing
+- Educational licensing
+- Partner licensing
+
+Unless otherwise stated, the version of the License included with a specific release governs that release.
+
+---
+
+# 24. Entire Agreement
+
+This License constitutes the complete legal agreement governing the use of AI Project Architect.
+
+It supersedes all previous discussions, communications, or understandings relating to the use of this project unless a separate written agreement has been signed by the Copyright Owner.
+
+No verbal statement or informal communication modifies this License.
+
+---
+
+# 25. Contact & Licensing
+
+For questions regarding:
+
+- Commercial Licensing
+- Enterprise Licensing
+- Partnership Opportunities
+- Educational Use
+- Government Use
+- Custom Agreements
+- Copyright Permissions
+- Trademark Permissions
+
+please contact the Copyright Owner through the official communication channels published by AI Project Architect.
+
+No commercial rights are granted until written authorization has been provided.
+
+---
+
+# 26. Final Legal Statement
+
+AI Project Architect represents a proprietary Software Engineering platform developed to transform software ideas into professional engineering documentation and implementation-ready project architectures.
+
+The source code, engineering methodologies, AI workflows, documentation, prompts, repository structures, templates, and all associated intellectual property are protected by applicable copyright and intellectual property laws.
+
+Unauthorized copying, redistribution, commercialization, reverse engineering of proprietary methodologies, or AI training based on this project is strictly prohibited unless explicitly authorized in writing by the Copyright Owner.
+
+Users are granted only those rights expressly described in this License.
+
+All other rights remain exclusively reserved.
+
+---
+
+# END OF DOCUMENT
+
+AI Project Architect
+
+LICENSE.txt
+
+Version: 1.0.0
+
+License Type: Proprietary Commercial License
+
+Status: Official License
+
+Copyright © 2026 AI Project Architect.
+
+All Rights Reserved.
+
+This License governs the use, modification, distribution, commercialization, and protection of AI Project Architect and all associated intellectual property.
+
+Any rights not expressly granted by this License are reserved exclusively by the Copyright Owner.

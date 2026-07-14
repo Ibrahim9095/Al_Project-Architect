@@ -1,0 +1,70 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Build
+dist/
+build/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Package Managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# IDE
+.vscode/
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Cache
+.cache/
+.parcel-cache/
+.turbo/
+
+# Coverage
+coverage/
+
+# TypeScript
+*.tsbuildinfo
+
+# Temporary Files
+tmp/
+temp/
+
+# Cursor
+.cursor/
+
+# AI Generated Cache
+.ai-cache/
+.ai-temp/
+
+# Export Files
+exports/*.zip
+
+# Runtime Files
+*.pid
+*.seed
+
+# Local Configuration
+.local/
