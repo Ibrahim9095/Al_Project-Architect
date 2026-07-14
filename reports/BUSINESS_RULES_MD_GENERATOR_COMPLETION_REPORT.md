@@ -35,7 +35,7 @@ Not applicable — scoped implementation task.
 
 ## Commit SHA
 
-PENDING_COMMIT
+`647150ef554993f721b7040f2cc4926b641911ed`
 
 ## Pull Request Number
 
