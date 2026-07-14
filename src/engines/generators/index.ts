@@ -3,6 +3,7 @@
  *
  * Phase 4.2.1: PROJECT.md
  * Phase 4.2.2: REQUIREMENTS.md
+ * Phase 4.2.4: MODULES.md
  * Other generators are intentionally not implemented.
  */
 
@@ -35,3 +36,18 @@ export type {
   RequirementsDocumentValidationResult,
   GenerateRequirementsDocumentResult,
 } from "./requirements";
+
+export {
+  ModulesDocumentGenerator,
+  createModulesDocumentGenerator,
+  generateModulesDocument,
+  extractModulesSource,
+  renderModulesMarkdown,
+  validateModulesDocument,
+} from "./modules";
+
+export type {
+  ModulesDocumentSource,
+  ModulesDocumentValidationResult,
+  GenerateModulesDocumentResult,
+} from "./modules";

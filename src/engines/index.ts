@@ -153,3 +153,15 @@ export type {
   RequirementsDocumentValidationResult,
   GenerateRequirementsDocumentResult,
 } from "./generators";
+
+/** Phase 4.2.4 — MODULES.md generator. */
+export {
+  ModulesDocumentGenerator,
+  createModulesDocumentGenerator,
+  generateModulesDocument,
+} from "./generators";
+export type {
+  ModulesDocumentSource,
+  ModulesDocumentValidationResult,
+  GenerateModulesDocumentResult,
+} from "./generators";
