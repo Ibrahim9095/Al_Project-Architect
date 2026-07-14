@@ -1,36 +1,40 @@
-import { PLATFORM_ENGINES } from "@/config/platform";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col justify-center gap-8 px-6 py-16">
-      <header className="space-y-3">
-        <p className="text-sm font-medium uppercase tracking-[0.2em] text-accent">
-          Foundation Ready
-        </p>
-        <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-          AI Project Architect
-        </h1>
-        <p className="max-w-2xl text-base leading-7 text-muted">
-          Application foundation initialized with Next.js 15, TypeScript,
-          Tailwind CSS, and the App Router. Engineering engines are scaffolded
-          and ready for implementation approval.
-        </p>
-      </header>
+    <main className="relative min-h-screen overflow-hidden hero-shell">
+      <div className="pointer-events-none absolute inset-0 hero-grid" />
+      <div className="pointer-events-none absolute -left-24 top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,var(--hero-glow),transparent_70%)] opacity-70 animate-drift" />
+      <div className="pointer-events-none absolute right-[-6rem] top-40 h-80 w-80 rounded-full bg-[radial-gradient(circle,#cfe3dc,transparent_70%)] opacity-80 animate-drift" />
 
-      <section className="space-y-3 border-t border-border pt-6">
-        <h2 className="text-sm font-medium uppercase tracking-[0.16em] text-muted">
-          Platform Engines
-        </h2>
-        <ul className="grid gap-2 sm:grid-cols-2">
-          {PLATFORM_ENGINES.map((engine) => (
-            <li
-              key={engine.id}
-              className="border border-border bg-white/60 px-4 py-3 text-sm text-foreground"
+      <section className="relative mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-center px-6 py-20">
+        <div className="max-w-3xl space-y-8">
+          <p className="animate-fade-up text-sm font-medium uppercase tracking-[0.22em] text-accent">
+            AI Project Architect
+          </p>
+
+          <h1 className="animate-fade-up-delayed font-display text-5xl leading-[1.05] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+            Understand the project
+            <span className="block text-accent">before you build it.</span>
+          </h1>
+
+          <p className="animate-fade-up-delayed max-w-xl text-lg leading-8 text-muted">
+            Run structured discovery, capture roles and capabilities, and produce
+            a clean Discovery JSON ready for engineering.
+          </p>
+
+          <div className="animate-fade-up-delayed flex flex-wrap items-center gap-4 pt-2">
+            <Link
+              href="/discovery"
+              className="bg-accent px-6 py-3 text-sm font-semibold tracking-wide text-white transition hover:bg-accent-strong"
             >
-              {engine.name}
-            </li>
-          ))}
-        </ul>
+              Start New Project
+            </Link>
+            <p className="text-sm text-muted">
+              Discovery Engine only — no AI generation in this phase.
+            </p>
+          </div>
+        </div>
       </section>
     </main>
   );

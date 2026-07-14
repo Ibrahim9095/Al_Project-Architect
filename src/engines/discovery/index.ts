@@ -8,5 +8,24 @@ export type {
   IDiscoveryService,
 } from "./types";
 
-export { DiscoveryService, discoveryService } from "./discovery.service";
+export type {
+  DiscoveryAnswers,
+  DiscoveryJson,
+  DiscoveryQuestion,
+  DiscoveryStepDefinition,
+  DiscoveryValidationResult,
+  ProjectTypeDefinition,
+} from "./catalog";
+
+export {
+  buildDiscoveryJson,
+  buildDiscoverySteps,
+  getProjectTypeDefinition,
+  listProjectTypes,
+  PROJECT_TYPE_DEFINITIONS,
+  validateCompleteDiscovery,
+  validateDiscoveryStep,
+} from "./catalog";
+
+export { DiscoveryService, discoveryService, discoveryWorkflow } from "./discovery.service";
 export { DiscoveryEngine, discoveryEngine } from "./discovery.engine";

@@ -15,15 +15,29 @@ export {
   DiscoveryService,
   discoveryEngine,
   discoveryService,
+  discoveryWorkflow,
+  buildDiscoveryJson,
+  buildDiscoverySteps,
+  getProjectTypeDefinition,
+  listProjectTypes,
+  PROJECT_TYPE_DEFINITIONS,
+  validateCompleteDiscovery,
+  validateDiscoveryStep,
 } from "./discovery";
 export type {
+  DiscoveryAnswers,
   DiscoveryEngineInput,
   DiscoveryEngineOutput,
   DiscoveryInput,
+  DiscoveryJson,
   DiscoveryOutput,
+  DiscoveryQuestion,
   DiscoverySession,
   DiscoverySessionStatus,
+  DiscoveryStepDefinition,
+  DiscoveryValidationResult,
   IDiscoveryService,
+  ProjectTypeDefinition,
 } from "./discovery";
 
 export {

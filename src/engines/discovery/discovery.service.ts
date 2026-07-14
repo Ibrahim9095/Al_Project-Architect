@@ -1,15 +1,26 @@
 import type { EngineContext, EngineResult } from "../types";
-import { assertEngineContext, blockedCapability } from "../shared";
+import { assertEngineContext } from "../shared";
+import {
+  buildDiscoveryJson,
+  buildDiscoverySteps,
+  validateCompleteDiscovery,
+  validateDiscoveryStep,
+} from "./catalog";
 import type {
-  DiscoveryInput,
-  DiscoveryOutput,
+  DiscoveryAnswers,
+  DiscoveryJson,
   DiscoverySession,
+  DiscoveryValidationResult,
   IDiscoveryService,
 } from "./types";
+import type { DiscoveryStepDefinition } from "./catalog";
 
 /**
- * Discovery service boundary — placeholder implementation.
+ * In-memory session store for the Discovery Engine foundation.
+ * Replace with persistent storage in a later phase.
  */
+const sessions = new Map<string, DiscoverySession>();
+
 export class DiscoveryService implements IDiscoveryService {
   readonly serviceId = "discovery.service" as const;
   readonly engineId = "discovery" as const;
@@ -17,28 +28,138 @@ export class DiscoveryService implements IDiscoveryService {
   async initializeSession(context: EngineContext): Promise<DiscoverySession> {
     assertEngineContext(context);
 
-    return {
+    const session: DiscoverySession = {
       sessionId: `discovery-${context.requestId}`,
       projectId: context.projectId,
-      status: "blocked",
+      status: "collecting",
+      answers: {},
+      currentStepIndex: 0,
+    };
+
+    sessions.set(session.sessionId, session);
+    return session;
+  }
+
+  async getSteps(
+    answers: DiscoveryAnswers,
+    context: EngineContext,
+  ): Promise<EngineResult<{ steps: DiscoveryStepDefinition[] }>> {
+    assertEngineContext(context);
+
+    return {
+      status: "complete",
+      engineId: this.engineId,
+      data: {
+        steps: buildDiscoverySteps(answers),
+      },
     };
   }
 
-  async processTurn(
-    _input: DiscoveryInput,
-    context: EngineContext,
-  ): Promise<EngineResult<DiscoveryOutput>> {
-    assertEngineContext(context);
-    return blockedCapability("discovery", "processTurn");
-  }
-
-  async getSessionStatus(
-    _sessionId: string,
+  async saveAnswers(
+    session: DiscoverySession,
+    answers: DiscoveryAnswers,
     context: EngineContext,
   ): Promise<EngineResult<DiscoverySession>> {
     assertEngineContext(context);
-    return blockedCapability("discovery", "getSessionStatus");
+
+    const nextSession: DiscoverySession = {
+      ...session,
+      answers: {
+        ...session.answers,
+        ...answers,
+      },
+      status: "collecting",
+    };
+
+    sessions.set(nextSession.sessionId, nextSession);
+
+    return {
+      status: "complete",
+      engineId: this.engineId,
+      data: nextSession,
+    };
+  }
+
+  async validateStep(
+    stepId: string,
+    answers: DiscoveryAnswers,
+    context: EngineContext,
+  ): Promise<EngineResult<DiscoveryValidationResult>> {
+    assertEngineContext(context);
+
+    const steps = buildDiscoverySteps(answers);
+    const step = steps.find((item) => item.id === stepId);
+
+    if (!step) {
+      return {
+        status: "blocked",
+        engineId: this.engineId,
+        missingInformation: ["stepId"],
+        message: `Unknown discovery step: ${stepId}`,
+      };
+    }
+
+    return {
+      status: "complete",
+      engineId: this.engineId,
+      data: validateDiscoveryStep(step, answers),
+    };
+  }
+
+  async completeDiscovery(
+    answers: DiscoveryAnswers,
+    context: EngineContext,
+  ): Promise<EngineResult<DiscoveryJson>> {
+    assertEngineContext(context);
+
+    const validation = validateCompleteDiscovery(answers);
+    if (!validation.valid) {
+      return {
+        status: "blocked",
+        engineId: this.engineId,
+        missingInformation: Object.keys(validation.errors),
+        message: "Discovery answers are incomplete.",
+        data: undefined,
+      };
+    }
+
+    return {
+      status: "complete",
+      engineId: this.engineId,
+      data: buildDiscoveryJson(answers),
+    };
+  }
+
+  async getSessionStatus(
+    sessionId: string,
+    context: EngineContext,
+  ): Promise<EngineResult<DiscoverySession>> {
+    assertEngineContext(context);
+
+    const session = sessions.get(sessionId);
+    if (!session) {
+      return {
+        status: "blocked",
+        engineId: this.engineId,
+        missingInformation: ["sessionId"],
+        message: "Discovery session not found.",
+      };
+    }
+
+    return {
+      status: "complete",
+      engineId: this.engineId,
+      data: session,
+    };
   }
 }
 
 export const discoveryService: IDiscoveryService = new DiscoveryService();
+
+/** Pure helpers for client-side Discovery Wizard usage. */
+export const discoveryWorkflow = {
+  buildSteps: buildDiscoverySteps,
+  validateStep: validateDiscoveryStep,
+  validateComplete: validateCompleteDiscovery,
+  buildJson: buildDiscoveryJson,
+};
