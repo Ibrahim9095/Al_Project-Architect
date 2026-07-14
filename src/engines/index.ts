@@ -129,3 +129,15 @@ export type {
   ExportOutput,
   IExportService,
 } from "./export";
+
+/** Phase 4.2.1 — PROJECT.md generator only. */
+export {
+  ProjectDocumentGenerator,
+  createProjectDocumentGenerator,
+  generateProjectDocument,
+} from "./generators";
+export type {
+  ProjectDocumentSource,
+  ProjectDocumentValidationResult,
+  GenerateProjectDocumentResult,
+} from "./generators";
