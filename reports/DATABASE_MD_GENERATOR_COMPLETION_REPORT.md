@@ -41,11 +41,15 @@ Not applicable — scoped implementation task.
 ## Commit SHA
 
 Implementation: `d4b78fbdd80ed0229ed06bf1eba5f9af9a681c9a`  
-Branch tip: `d4b78fbdd80ed0229ed06bf1eba5f9af9a681c9a`
+Branch tip: `cd883db` (pending final)
 
 ## Pull Request Number
 
-Pending.
+#9  
+URL: https://github.com/Ibrahim9095/Al_Project-Architect/pull/9  
+State: OPEN (draft)  
+Base: `main`  
+Merged: No
 
 ## Files Changed
 
