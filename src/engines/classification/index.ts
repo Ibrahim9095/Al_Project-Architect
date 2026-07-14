@@ -1,16 +1,14 @@
 import type { EngineResult, PlatformEngine } from "../types";
+import { createNotImplementedResult } from "../types";
 
 /**
- * Classification Engine placeholder.
- * Responsibility: project complexity scoring and repository selection.
+ * Classification Engine remains a minimal foundation placeholder.
+ * Full architecture expansion was not requested in this phase.
  */
 export const classificationEngine: PlatformEngine = {
   id: "classification",
   name: "Classification Engine",
   async run(): Promise<EngineResult> {
-    return {
-      status: "blocked",
-      message: "Classification Engine foundation is ready. Implementation pending approval.",
-    };
+    return createNotImplementedResult("classification", "run");
   },
 };

@@ -1,16 +1,13 @@
-import type { EngineResult, PlatformEngine } from "../types";
+export type {
+  IRepositoryService,
+  RepositoryComplexity,
+  RepositoryEngineInput,
+  RepositoryEngineOutput,
+  RepositoryInput,
+  RepositoryJobStatus,
+  RepositoryOutput,
+  RepositoryPlan,
+} from "./types";
 
-/**
- * Repository Generator placeholder.
- * Responsibility: assemble repositories from classified templates and assets.
- */
-export const repositoryEngine: PlatformEngine = {
-  id: "repository",
-  name: "Repository Generator",
-  async run(): Promise<EngineResult> {
-    return {
-      status: "blocked",
-      message: "Repository Generator foundation is ready. Implementation pending approval.",
-    };
-  },
-};
+export { RepositoryService, repositoryService } from "./repository.service";
+export { RepositoryEngine, repositoryEngine } from "./repository.engine";

@@ -1,16 +1,20 @@
-import type { EngineResult, PlatformEngine } from "../types";
+export type {
+  DocumentationArtifactKind,
+  DocumentationArtifactRef,
+  DocumentationEngineInput,
+  DocumentationEngineOutput,
+  DocumentationInput,
+  DocumentationJob,
+  DocumentationJobStatus,
+  DocumentationOutput,
+  IDocumentationService,
+} from "./types";
 
-/**
- * Documentation Engine placeholder.
- * Responsibility: generate engineering documentation from validated knowledge.
- */
-export const documentationEngine: PlatformEngine = {
-  id: "documentation",
-  name: "Documentation Engine",
-  async run(): Promise<EngineResult> {
-    return {
-      status: "blocked",
-      message: "Documentation Engine foundation is ready. Implementation pending approval.",
-    };
-  },
-};
+export {
+  DocumentationService,
+  documentationService,
+} from "./documentation.service";
+export {
+  DocumentationEngine,
+  documentationEngine,
+} from "./documentation.engine";

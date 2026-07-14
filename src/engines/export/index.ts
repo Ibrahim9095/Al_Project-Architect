@@ -1,16 +1,13 @@
-import type { EngineResult, PlatformEngine } from "../types";
+export type {
+  ExportEngineInput,
+  ExportEngineOutput,
+  ExportFormat,
+  ExportInput,
+  ExportJobStatus,
+  ExportManifest,
+  ExportOutput,
+  IExportService,
+} from "./types";
 
-/**
- * Export Engine placeholder.
- * Responsibility: package validated engineering artifacts for delivery.
- */
-export const exportEngine: PlatformEngine = {
-  id: "export",
-  name: "Export Engine",
-  async run(): Promise<EngineResult> {
-    return {
-      status: "blocked",
-      message: "Export Engine foundation is ready. Implementation pending approval.",
-    };
-  },
-};
+export { ExportService, exportService } from "./export.service";
+export { ExportEngine, exportEngine } from "./export.engine";

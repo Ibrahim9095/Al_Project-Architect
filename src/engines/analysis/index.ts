@@ -1,16 +1,13 @@
-import type { EngineResult, PlatformEngine } from "../types";
+export type {
+  AnalysisEngineInput,
+  AnalysisEngineOutput,
+  AnalysisInput,
+  AnalysisJob,
+  AnalysisJobStatus,
+  AnalysisOutput,
+  AnalysisStage,
+  IAnalysisService,
+} from "./types";
 
-/**
- * Analysis Engine placeholder.
- * Responsibility: requirement and business analysis.
- */
-export const analysisEngine: PlatformEngine = {
-  id: "analysis",
-  name: "Analysis Engine",
-  async run(): Promise<EngineResult> {
-    return {
-      status: "blocked",
-      message: "Analysis Engine foundation is ready. Implementation pending approval.",
-    };
-  },
-};
+export { AnalysisService, analysisService } from "./analysis.service";
+export { AnalysisEngine, analysisEngine } from "./analysis.engine";

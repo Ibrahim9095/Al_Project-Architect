@@ -28,7 +28,7 @@ export const PLATFORM_ENGINES = [
   },
   {
     id: "repository",
-    name: "Repository Generator",
+    name: "Repository Engine",
     description: "Repository assembly from classified templates.",
   },
   {
