@@ -1,7 +1,8 @@
 /**
  * Document generators.
  *
- * Phase 4.2.1: PROJECT.md only.
+ * Phase 4.2.1: PROJECT.md
+ * Phase 4.2.2: REQUIREMENTS.md
  * Other generators are intentionally not implemented.
  */
 
@@ -19,3 +20,18 @@ export type {
   ProjectDocumentValidationResult,
   GenerateProjectDocumentResult,
 } from "./project";
+
+export {
+  RequirementsDocumentGenerator,
+  createRequirementsDocumentGenerator,
+  generateRequirementsDocument,
+  extractRequirementsSource,
+  renderRequirementsMarkdown,
+  validateRequirementsDocument,
+} from "./requirements";
+
+export type {
+  RequirementsDocumentSource,
+  RequirementsDocumentValidationResult,
+  GenerateRequirementsDocumentResult,
+} from "./requirements";

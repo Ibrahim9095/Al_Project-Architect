@@ -130,7 +130,7 @@ export type {
   IExportService,
 } from "./export";
 
-/** Phase 4.2.1 — PROJECT.md generator only. */
+/** Phase 4.2.1 — PROJECT.md generator. */
 export {
   ProjectDocumentGenerator,
   createProjectDocumentGenerator,
@@ -140,4 +140,16 @@ export type {
   ProjectDocumentSource,
   ProjectDocumentValidationResult,
   GenerateProjectDocumentResult,
+} from "./generators";
+
+/** Phase 4.2.2 — REQUIREMENTS.md generator. */
+export {
+  RequirementsDocumentGenerator,
+  createRequirementsDocumentGenerator,
+  generateRequirementsDocument,
+} from "./generators";
+export type {
+  RequirementsDocumentSource,
+  RequirementsDocumentValidationResult,
+  GenerateRequirementsDocumentResult,
 } from "./generators";
