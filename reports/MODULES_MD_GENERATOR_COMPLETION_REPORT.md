@@ -36,7 +36,8 @@ Not applicable — scoped implementation task.
 
 ## Commit SHA
 
-Pending commit on branch `cursor/modules-md-generator-87aa`.
+Implementation: `daf772ac958db13412a6860cbf4b8437eddc6be5`  
+Branch tip: `daf772ac958db13412a6860cbf4b8437eddc6be5`
 
 ## Pull Request Number
 
