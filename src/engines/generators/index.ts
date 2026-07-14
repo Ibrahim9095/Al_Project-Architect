@@ -3,6 +3,7 @@
  *
  * Phase 4.2.1: PROJECT.md
  * Phase 4.2.2: REQUIREMENTS.md
+ * Phase 4.2.5: DATABASE.md
  * Other generators are intentionally not implemented.
  */
 
@@ -35,3 +36,18 @@ export type {
   RequirementsDocumentValidationResult,
   GenerateRequirementsDocumentResult,
 } from "./requirements";
+
+export {
+  DatabaseDocumentGenerator,
+  createDatabaseDocumentGenerator,
+  generateDatabaseDocument,
+  extractDatabaseSource,
+  renderDatabaseMarkdown,
+  validateDatabaseDocument,
+} from "./database";
+
+export type {
+  DatabaseDocumentSource,
+  DatabaseDocumentValidationResult,
+  GenerateDatabaseDocumentResult,
+} from "./database";
