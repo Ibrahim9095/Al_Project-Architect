@@ -2,16 +2,22 @@
   "name": "ai-project-architect",
   "version": "1.0.0",
   "private": true,
-  "description": "AI Project Architect \u2014 Analysis Engine",
+  "description": "AI Project Architect",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "validate:analysis": "npm run build && node scripts/validate-analysis-engine.mjs"
+    "validate:analysis": "npm run build && node scripts/validate-analysis-engine.mjs",
+    "lint": "eslint .",
+    "validate:documentation": "npm run build && node scripts/validate-documentation-core.mjs"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.1.1",
+    "eslint": "^10.7.0",
     "typescript": "^5.8.3",
+    "typescript-eslint": "^8.64.0",
     "vitest": "^3.2.4"
   },
   "type": "module"
