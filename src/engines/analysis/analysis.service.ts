@@ -1,53 +1,50 @@
+import type { NormalizedDiscovery } from "@/engines/contracts";
 import type { EngineContext, EngineResult } from "../types";
-import { assertEngineContext, blockedCapability } from "../shared";
+import { assertEngineContext } from "../shared";
+import { buildEngineeringModel } from "./build-engineering-model";
 import type {
-  AnalysisInput,
-  AnalysisJob,
-  AnalysisOutput,
+  AnalysisValidationResult,
+  EngineeringModel,
   IAnalysisService,
 } from "./types";
+import { validateAnalysisInput } from "./validate-input";
 
 /**
- * Analysis service boundary — placeholder implementation.
+ * Analysis Service.
+ * Validates NormalizedDiscovery and builds the internal Engineering Model.
  */
 export class AnalysisService implements IAnalysisService {
   readonly serviceId = "analysis.service" as const;
   readonly engineId = "analysis" as const;
 
-  async startAnalysis(
-    input: AnalysisInput,
+  validateInput(discovery: unknown): AnalysisValidationResult {
+    return validateAnalysisInput(discovery);
+  }
+
+  async analyze(
+    discovery: NormalizedDiscovery,
     context: EngineContext,
-  ): Promise<EngineResult<AnalysisJob>> {
+  ): Promise<EngineResult<EngineeringModel>> {
     assertEngineContext(context);
+
+    const validation = this.validateInput(discovery);
+    if (!validation.valid) {
+      return {
+        status: "blocked",
+        engineId: this.engineId,
+        missingInformation: validation.errors,
+        message: "Normalized Discovery Schema validation failed.",
+      };
+    }
+
+    const model = buildEngineeringModel(discovery);
 
     return {
-      status: "blocked",
+      status: "complete",
       engineId: this.engineId,
-      data: {
-        jobId: `analysis-${context.requestId}`,
-        projectId: context.projectId,
-        stage: input.stage,
-        status: "blocked",
-      },
-      message:
-        "Analysis Service architecture is ready. Analysis logic is not implemented.",
+      data: model,
+      message: "Engineering Model built successfully.",
     };
-  }
-
-  async getAnalysisStatus(
-    _jobId: string,
-    context: EngineContext,
-  ): Promise<EngineResult<AnalysisJob>> {
-    assertEngineContext(context);
-    return blockedCapability("analysis", "getAnalysisStatus");
-  }
-
-  async summarizeAnalysis(
-    _jobId: string,
-    context: EngineContext,
-  ): Promise<EngineResult<AnalysisOutput>> {
-    assertEngineContext(context);
-    return blockedCapability("analysis", "summarizeAnalysis");
   }
 }
 

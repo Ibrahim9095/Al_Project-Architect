@@ -1,6 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
+import Link from "next/link";
 import type { NormalizedDiscovery } from "@/engines/discovery";
+import { writeNormalizedDiscoveryToStorage } from "@/modules/analysis";
 
 interface DiscoveryJsonViewProps {
   data: NormalizedDiscovery;
@@ -8,6 +11,10 @@ interface DiscoveryJsonViewProps {
 }
 
 export function DiscoveryJsonView({ data, onRestart }: DiscoveryJsonViewProps) {
+  useEffect(() => {
+    writeNormalizedDiscoveryToStorage(data);
+  }, [data]);
+
   return (
     <div className="space-y-6 animate-fade-up">
       <div className="space-y-2">
@@ -29,6 +36,12 @@ export function DiscoveryJsonView({ data, onRestart }: DiscoveryJsonViewProps) {
       </pre>
 
       <div className="flex flex-wrap gap-3">
+        <Link
+          href="/analysis"
+          className="bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-strong"
+        >
+          Run Analysis
+        </Link>
         <button
           type="button"
           onClick={onRestart}

@@ -1,3 +1,4 @@
+import type { NormalizedDiscovery } from "@/engines/contracts";
 import type { EngineContext, EngineResult, PlatformEngine } from "../types";
 import { assertEngineContext, blockedCapability } from "../shared";
 import { analysisService } from "./analysis.service";
@@ -9,7 +10,9 @@ import type {
 
 /**
  * Analysis Engine orchestrator.
- * Coordinates analysis services; contains no analysis business logic.
+ * Accepts NormalizedDiscovery, validates it, and returns the Engineering Model.
+ * Does not generate Markdown, repositories, or source code.
+ * Does not call AI providers.
  */
 export class AnalysisEngine
   implements PlatformEngine<AnalysisEngineInput, AnalysisEngineOutput>
@@ -26,82 +29,30 @@ export class AnalysisEngine
     assertEngineContext(context);
 
     switch (input.action) {
-      case "start": {
-        if (!input.input?.stage) {
+      case "analyze": {
+        if (input.discovery === undefined) {
           return {
             status: "blocked",
             engineId: this.id,
-            missingInformation: ["input.stage"],
-            message: "stage is required for start action.",
+            missingInformation: ["discovery"],
+            message: "Normalized Discovery input is required.",
           };
         }
 
-        const result = await this.service.startAnalysis(input.input, context);
-        if (!result.data) {
-          return {
-            status: result.status,
-            engineId: this.id,
-            message: result.message,
-            missingInformation: result.missingInformation,
-          };
-        }
-
-        return {
-          status: "blocked",
-          engineId: this.id,
-          data: {
-            job: result.data,
-            pendingCapabilities: [
-              "getAnalysisStatus",
-              "summarizeAnalysis",
-              "consistencyChecks",
-            ],
-          },
-          message:
-            "Analysis Engine architecture is ready. Business logic is not implemented.",
-        };
-      }
-      case "status": {
-        if (!input.input?.jobId) {
+        const validation = this.service.validateInput(input.discovery);
+        if (!validation.valid) {
           return {
             status: "blocked",
             engineId: this.id,
-            missingInformation: ["input.jobId"],
-            message: "jobId is required for status action.",
+            missingInformation: validation.errors,
+            message: "Normalized Discovery Schema validation failed.",
           };
         }
-        const result = await this.service.getAnalysisStatus(
-          input.input.jobId,
+
+        return this.service.analyze(
+          input.discovery as NormalizedDiscovery,
           context,
         );
-        if (!result.data) {
-          return {
-            status: result.status,
-            engineId: this.id,
-            message: result.message,
-            missingInformation: result.missingInformation,
-          };
-        }
-        return {
-          status: result.status,
-          engineId: this.id,
-          data: {
-            job: result.data,
-            pendingCapabilities: ["summarizeAnalysis"],
-          },
-          message: result.message,
-        };
-      }
-      case "summarize": {
-        if (!input.input?.jobId) {
-          return {
-            status: "blocked",
-            engineId: this.id,
-            missingInformation: ["input.jobId"],
-            message: "jobId is required for summarize action.",
-          };
-        }
-        return this.service.summarizeAnalysis(input.input.jobId, context);
       }
       default:
         return blockedCapability("analysis", String(input.action));

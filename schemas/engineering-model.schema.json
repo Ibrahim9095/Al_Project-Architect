@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-project-architect.local/schemas/engineering-model.schema.json",
+  "title": "EngineeringModel",
+  "description": "Internal Engineering Model produced by the Analysis Engine. Not documentation and not a repository.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "projectSummary",
+    "projectClassification",
+    "businessGoals",
+    "userRoles",
+    "modules",
+    "features",
+    "businessRules",
+    "databaseCandidates",
+    "apiCandidates",
+    "externalIntegrations",
+    "securityRequirements",
+    "nonFunctionalRequirements",
+    "risks",
+    "complexityLevel",
+    "recommendedTechnologyStack",
+    "metadata"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0.0" },
+    "projectSummary": { "type": "object" },
+    "projectClassification": { "type": "object" },
+    "businessGoals": { "type": "array", "items": { "type": "string" } },
+    "userRoles": { "type": "array" },
+    "modules": { "type": "array" },
+    "features": { "type": "array" },
+    "businessRules": { "type": "array" },
+    "databaseCandidates": { "type": "array" },
+    "apiCandidates": { "type": "array" },
+    "externalIntegrations": { "type": "array" },
+    "securityRequirements": { "type": "array" },
+    "nonFunctionalRequirements": { "type": "array" },
+    "risks": { "type": "array" },
+    "complexityLevel": {
+      "type": "string",
+      "enum": ["tiny", "small", "medium", "large", "enterprise"]
+    },
+    "recommendedTechnologyStack": { "type": "object" },
+    "metadata": { "type": "object" }
+  },
+  "additionalProperties": false
+}

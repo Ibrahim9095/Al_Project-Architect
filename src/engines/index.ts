@@ -57,15 +57,16 @@ export {
   AnalysisService,
   analysisEngine,
   analysisService,
+  buildEngineeringModel,
+  validateAnalysisInput,
+  ENGINEERING_MODEL_SCHEMA_VERSION,
 } from "./analysis";
 export type {
   AnalysisEngineInput,
   AnalysisEngineOutput,
-  AnalysisInput,
-  AnalysisJob,
-  AnalysisJobStatus,
-  AnalysisOutput,
-  AnalysisStage,
+  AnalysisValidationResult,
+  ComplexityLevel,
+  EngineeringModel,
   IAnalysisService,
 } from "./analysis";
 
