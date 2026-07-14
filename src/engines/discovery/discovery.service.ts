@@ -6,9 +6,13 @@ import {
   validateCompleteDiscovery,
   validateDiscoveryStep,
 } from "./catalog";
+import {
+  normalizeDiscoveryAnswers,
+  validateNormalizedDiscovery,
+} from "./normalization";
 import type {
   DiscoveryAnswers,
-  DiscoveryJson,
+  DiscoveryCompletionResult,
   DiscoverySession,
   DiscoveryValidationResult,
   IDiscoveryService,
@@ -109,7 +113,7 @@ export class DiscoveryService implements IDiscoveryService {
   async completeDiscovery(
     answers: DiscoveryAnswers,
     context: EngineContext,
-  ): Promise<EngineResult<DiscoveryJson>> {
+  ): Promise<EngineResult<DiscoveryCompletionResult>> {
     assertEngineContext(context);
 
     const validation = validateCompleteDiscovery(answers);
@@ -123,10 +127,33 @@ export class DiscoveryService implements IDiscoveryService {
       };
     }
 
+    const discoveryJson = buildDiscoveryJson(answers);
+    const normalizedDiscovery = normalizeDiscoveryAnswers(answers);
+    const normalization = validateNormalizedDiscovery(normalizedDiscovery);
+
+    if (!normalization.valid) {
+      return {
+        status: "blocked",
+        engineId: this.engineId,
+        missingInformation: normalization.errors,
+        message: "Normalized Discovery Schema validation failed.",
+        data: {
+          discoveryJson,
+          normalizedDiscovery,
+          normalization,
+        },
+      };
+    }
+
     return {
       status: "complete",
       engineId: this.engineId,
-      data: buildDiscoveryJson(answers),
+      data: {
+        discoveryJson,
+        normalizedDiscovery,
+        normalization,
+      },
+      message: "Discovery normalized successfully.",
     };
   }
 
@@ -162,4 +189,6 @@ export const discoveryWorkflow = {
   validateStep: validateDiscoveryStep,
   validateComplete: validateCompleteDiscovery,
   buildJson: buildDiscoveryJson,
+  normalizeAnswers: normalizeDiscoveryAnswers,
+  validateNormalized: validateNormalizedDiscovery,
 };

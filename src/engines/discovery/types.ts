@@ -5,6 +5,10 @@ import type {
   DiscoveryStepDefinition,
   DiscoveryValidationResult,
 } from "./catalog";
+import type {
+  NormalizationValidationResult,
+  NormalizedDiscovery,
+} from "./normalization";
 
 export type {
   DiscoveryAnswers,
@@ -12,6 +16,11 @@ export type {
   DiscoveryStepDefinition,
   DiscoveryValidationResult,
 } from "./catalog";
+
+export type {
+  NormalizationValidationResult,
+  NormalizedDiscovery,
+} from "./normalization";
 
 /**
  * Discovery Engine contracts.
@@ -51,6 +60,9 @@ export interface DiscoveryOutput {
   steps: DiscoveryStepDefinition[];
   validation?: DiscoveryValidationResult;
   discoveryJson?: DiscoveryJson;
+  /** Official contract for all future engines. */
+  normalizedDiscovery?: NormalizedDiscovery;
+  normalizationErrors?: string[];
   pendingCapabilities: string[];
 }
 
@@ -67,6 +79,12 @@ export interface DiscoveryEngineInput {
 }
 
 export type DiscoveryEngineOutput = DiscoveryOutput;
+
+export interface DiscoveryCompletionResult {
+  discoveryJson: DiscoveryJson;
+  normalizedDiscovery: NormalizedDiscovery;
+  normalization: NormalizationValidationResult;
+}
 
 export interface IDiscoveryService {
   readonly serviceId: "discovery.service";
@@ -90,7 +108,7 @@ export interface IDiscoveryService {
   completeDiscovery(
     answers: DiscoveryAnswers,
     context: EngineContext,
-  ): Promise<EngineResult<DiscoveryJson>>;
+  ): Promise<EngineResult<DiscoveryCompletionResult>>;
   getSessionStatus(
     sessionId: string,
     context: EngineContext,

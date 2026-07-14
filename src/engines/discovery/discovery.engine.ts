@@ -124,8 +124,16 @@ export class DiscoveryEngine
             message: completed.message,
             missingInformation: completed.missingInformation,
             data: {
-              session: this.createTransientSession(context, answers, input, "validating"),
+              session: this.createTransientSession(
+                context,
+                answers,
+                input,
+                "validating",
+              ),
               steps: stepsResult.data?.steps ?? [],
+              discoveryJson: completed.data?.discoveryJson,
+              normalizedDiscovery: completed.data?.normalizedDiscovery,
+              normalizationErrors: completed.data?.normalization.errors,
               pendingCapabilities: [],
             },
           };
@@ -135,12 +143,18 @@ export class DiscoveryEngine
           status: "complete",
           engineId: this.id,
           data: {
-            session: this.createTransientSession(context, answers, input, "completed"),
+            session: this.createTransientSession(
+              context,
+              answers,
+              input,
+              "completed",
+            ),
             steps: stepsResult.data?.steps ?? [],
-            discoveryJson: completed.data,
+            discoveryJson: completed.data.discoveryJson,
+            normalizedDiscovery: completed.data.normalizedDiscovery,
             pendingCapabilities: [],
           },
-          message: "Discovery JSON generated.",
+          message: "Normalized Discovery Schema generated.",
         };
       }
 

@@ -10,19 +10,21 @@ import {
   type ReactNode,
 } from "react";
 import {
-  buildDiscoveryJson,
   buildDiscoverySteps,
+  normalizeDiscoveryAnswers,
   validateDiscoveryStep,
+  validateNormalizedDiscovery,
   type DiscoveryAnswers,
-  type DiscoveryJson,
   type DiscoveryStepDefinition,
+  type NormalizedDiscovery,
 } from "@/engines/discovery";
 
 interface DiscoveryWizardState {
   answers: DiscoveryAnswers;
   stepIndex: number;
   errors: Record<string, string>;
-  completedJson: DiscoveryJson | null;
+  normalizedDiscovery: NormalizedDiscovery | null;
+  normalizationErrors: string[];
   steps: DiscoveryStepDefinition[];
   currentStep: DiscoveryStepDefinition | null;
   isComplete: boolean;
@@ -39,13 +41,13 @@ export function DiscoveryWizardProvider({ children }: { children: ReactNode }) {
   const [answers, setAnswers] = useState<DiscoveryAnswers>({});
   const [stepIndex, setStepIndex] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [completedJson, setCompletedJson] = useState<DiscoveryJson | null>(
-    null,
-  );
+  const [normalizedDiscovery, setNormalizedDiscovery] =
+    useState<NormalizedDiscovery | null>(null);
+  const [normalizationErrors, setNormalizationErrors] = useState<string[]>([]);
 
   const steps = useMemo(() => buildDiscoverySteps(answers), [answers]);
   const currentStep = steps[stepIndex] ?? null;
-  const isComplete = completedJson !== null;
+  const isComplete = normalizedDiscovery !== null;
   const progress = isComplete
     ? 100
     : steps.length === 0
@@ -110,7 +112,16 @@ export function DiscoveryWizardProvider({ children }: { children: ReactNode }) {
     const isLastStep = stepIndex >= refreshedSteps.length - 1;
 
     if (isLastStep) {
-      setCompletedJson(buildDiscoveryJson(answers));
+      const normalized = normalizeDiscoveryAnswers(answers);
+      const normalization = validateNormalizedDiscovery(normalized);
+
+      if (!normalization.valid) {
+        setNormalizationErrors(normalization.errors);
+        return false;
+      }
+
+      setNormalizationErrors([]);
+      setNormalizedDiscovery(normalized);
       return true;
     }
 
@@ -120,18 +131,20 @@ export function DiscoveryWizardProvider({ children }: { children: ReactNode }) {
 
   const goPrevious = useCallback(() => {
     setErrors({});
-    if (completedJson) {
-      setCompletedJson(null);
+    setNormalizationErrors([]);
+    if (normalizedDiscovery) {
+      setNormalizedDiscovery(null);
       return;
     }
     setStepIndex((index) => Math.max(index - 1, 0));
-  }, [completedJson]);
+  }, [normalizedDiscovery]);
 
   const reset = useCallback(() => {
     setAnswers({});
     setStepIndex(0);
     setErrors({});
-    setCompletedJson(null);
+    setNormalizedDiscovery(null);
+    setNormalizationErrors([]);
   }, []);
 
   const value = useMemo(
@@ -139,7 +152,8 @@ export function DiscoveryWizardProvider({ children }: { children: ReactNode }) {
       answers,
       stepIndex,
       errors,
-      completedJson,
+      normalizedDiscovery,
+      normalizationErrors,
       steps,
       currentStep,
       isComplete,
@@ -153,7 +167,8 @@ export function DiscoveryWizardProvider({ children }: { children: ReactNode }) {
       answers,
       stepIndex,
       errors,
-      completedJson,
+      normalizedDiscovery,
+      normalizationErrors,
       steps,
       currentStep,
       isComplete,

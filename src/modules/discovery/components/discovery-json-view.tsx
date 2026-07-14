@@ -1,9 +1,9 @@
 "use client";
 
-import type { DiscoveryJson } from "@/engines/discovery";
+import type { NormalizedDiscovery } from "@/engines/discovery";
 
 interface DiscoveryJsonViewProps {
-  data: DiscoveryJson;
+  data: NormalizedDiscovery;
   onRestart: () => void;
 }
 
@@ -12,12 +12,15 @@ export function DiscoveryJsonView({ data, onRestart }: DiscoveryJsonViewProps) {
     <div className="space-y-6 animate-fade-up">
       <div className="space-y-2">
         <p className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
-          Discovery Complete
+          Discovery Normalized
         </p>
-        <h2 className="font-display text-3xl text-ink">Discovery JSON</h2>
+        <h2 className="font-display text-3xl text-ink">
+          Normalized Discovery Schema
+        </h2>
         <p className="max-w-2xl text-sm leading-6 text-muted">
-          This object is generated locally by the Discovery Engine and is not
-          sent anywhere.
+          Official contract for future engines. Schema version{" "}
+          <span className="font-medium text-ink">{data.schemaVersion}</span>.
+          This object is generated locally and is not sent anywhere.
         </p>
       </div>
 

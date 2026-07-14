@@ -11,7 +11,8 @@ export function DiscoveryWizard() {
     answers,
     stepIndex,
     errors,
-    completedJson,
+    normalizedDiscovery,
+    normalizationErrors,
     steps,
     currentStep,
     isComplete,
@@ -22,10 +23,10 @@ export function DiscoveryWizard() {
     reset,
   } = useDiscoveryWizard();
 
-  if (isComplete && completedJson) {
+  if (isComplete && normalizedDiscovery) {
     return (
       <div className="mx-auto w-full max-w-3xl px-6 py-12 sm:py-16">
-        <DiscoveryJsonView data={completedJson} onRestart={reset} />
+        <DiscoveryJsonView data={normalizedDiscovery} onRestart={reset} />
       </div>
     );
   }
@@ -73,6 +74,17 @@ export function DiscoveryWizard() {
             />
           ))}
         </div>
+
+        {normalizationErrors.length > 0 ? (
+          <div className="border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
+            <p className="font-medium">Normalization validation failed</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5">
+              {normalizationErrors.map((error) => (
+                <li key={error}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
 
         <WizardNavigation
           canGoPrevious={stepIndex > 0}

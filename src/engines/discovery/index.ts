@@ -1,4 +1,5 @@
 export type {
+  DiscoveryCompletionResult,
   DiscoveryEngineInput,
   DiscoveryEngineOutput,
   DiscoveryInput,
@@ -17,6 +18,23 @@ export type {
   ProjectTypeDefinition,
 } from "./catalog";
 
+export type {
+  DiscoverySchemaVersion,
+  NormalizationValidationResult,
+  NormalizedApi,
+  NormalizedApiResource,
+  NormalizedBusinessRule,
+  NormalizedDatabase,
+  NormalizedDatabaseEntity,
+  NormalizedDeployment,
+  NormalizedDiscovery,
+  NormalizedDiscoveryMetadata,
+  NormalizedIntegration,
+  NormalizedNamedItem,
+  NormalizedProject,
+  NormalizedUi,
+} from "./normalization";
+
 export {
   buildDiscoveryJson,
   buildDiscoverySteps,
@@ -27,5 +45,18 @@ export {
   validateDiscoveryStep,
 } from "./catalog";
 
-export { DiscoveryService, discoveryService, discoveryWorkflow } from "./discovery.service";
+export {
+  DISCOVERY_SCHEMA_VERSION,
+  createDiscoverySchemaDefaults,
+  createEmptyNormalizedDiscovery,
+  normalizeDiscoveryAnswers,
+  normalizeDiscoveryJson,
+  validateNormalizedDiscovery,
+} from "./normalization";
+
+export {
+  DiscoveryService,
+  discoveryService,
+  discoveryWorkflow,
+} from "./discovery.service";
 export { DiscoveryEngine, discoveryEngine } from "./discovery.engine";

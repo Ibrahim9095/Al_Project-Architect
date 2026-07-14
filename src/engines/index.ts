@@ -23,9 +23,16 @@ export {
   PROJECT_TYPE_DEFINITIONS,
   validateCompleteDiscovery,
   validateDiscoveryStep,
+  DISCOVERY_SCHEMA_VERSION,
+  createDiscoverySchemaDefaults,
+  createEmptyNormalizedDiscovery,
+  normalizeDiscoveryAnswers,
+  normalizeDiscoveryJson,
+  validateNormalizedDiscovery,
 } from "./discovery";
 export type {
   DiscoveryAnswers,
+  DiscoveryCompletionResult,
   DiscoveryEngineInput,
   DiscoveryEngineOutput,
   DiscoveryInput,
@@ -38,7 +45,12 @@ export type {
   DiscoveryValidationResult,
   IDiscoveryService,
   ProjectTypeDefinition,
+  DiscoverySchemaVersion,
+  NormalizationValidationResult,
+  NormalizedDiscovery,
 } from "./discovery";
+
+/** Future engines should import the Discovery contract from `@/engines/contracts`. */
 
 export {
   AnalysisEngine,
