@@ -1,0 +1,402 @@
+{
+  "businessSummary": "A hotel reservation system for guests to book rooms and staff to manage availability, check-in, and billing basics.",
+  "vision": "Deliver dependable room booking and front-desk operations for a mid-size hotel.",
+  "scope": {
+    "included": [
+      "Room search",
+      "Reservations",
+      "Check-in/out",
+      "Basic billing",
+      "Staff inventory of rooms"
+    ],
+    "excluded": [
+      "Channel manager / OTA sync",
+      "Spa POS"
+    ],
+    "constraints": [
+      "Must support seasonal pricing"
+    ],
+    "assumptions": [
+      "One property"
+    ]
+  },
+  "personas": [
+    {
+      "id": "P-001",
+      "name": "Guest",
+      "role": "Guest",
+      "responsibilities": [
+        "Book rooms"
+      ],
+      "permissions": [
+        "create:reservation",
+        "read:own-reservation"
+      ]
+    },
+    {
+      "id": "P-002",
+      "name": "Front Desk",
+      "role": "FrontDesk",
+      "responsibilities": [
+        "Check-in",
+        "Check-out"
+      ],
+      "permissions": [
+        "manage:reservation",
+        "manage:checkin"
+      ]
+    },
+    {
+      "id": "P-003",
+      "name": "Hotel Manager",
+      "role": "Manager",
+      "responsibilities": [
+        "Configure rooms and rates"
+      ],
+      "permissions": [
+        "manage:rooms",
+        "manage:rates"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "title": "Search available rooms",
+      "description": "Guests search rooms by dates and occupancy.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Only available rooms are shown for selected dates"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-001"
+      ],
+      "priority": "High",
+      "userRoles": [
+        "Guest"
+      ],
+      "businessObjective": "Help guests find rooms",
+      "businessValue": "Increase bookings"
+    },
+    {
+      "id": "REQ-002",
+      "title": "Create reservation",
+      "description": "Guests create reservations for available rooms.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Reservation stores dates, room type, guest details",
+        "Overlapping bookings blocked"
+      ],
+      "dependencies": [
+        "REQ-001"
+      ],
+      "relatedBusinessRules": [
+        "BR-001",
+        "BR-002"
+      ],
+      "priority": "Critical",
+      "userRoles": [
+        "Guest"
+      ],
+      "businessObjective": "Convert searches into bookings",
+      "businessValue": "Revenue"
+    },
+    {
+      "id": "REQ-003",
+      "title": "Front desk check-in",
+      "description": "Front desk can check in guests with valid reservations.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Check-in changes reservation status to checked-in"
+      ],
+      "dependencies": [
+        "REQ-002"
+      ],
+      "relatedBusinessRules": [
+        "BR-002"
+      ],
+      "priority": "High",
+      "userRoles": [
+        "FrontDesk"
+      ],
+      "businessObjective": "Operate arrivals",
+      "businessValue": "Smooth guest experience"
+    },
+    {
+      "id": "REQ-004",
+      "title": "Manage room inventory",
+      "description": "Managers configure rooms, types, and seasonal rates.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Seasonal rates apply by date range"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-003"
+      ],
+      "priority": "High",
+      "userRoles": [
+        "Manager"
+      ],
+      "businessObjective": "Control sellable inventory",
+      "businessValue": "Pricing flexibility"
+    },
+    {
+      "id": "REQ-005",
+      "title": "Basic billing",
+      "description": "System calculates stay charges at checkout.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Bill includes nightly rates for stay duration"
+      ],
+      "dependencies": [
+        "REQ-003",
+        "REQ-004"
+      ],
+      "relatedBusinessRules": [
+        "BR-003"
+      ],
+      "priority": "High",
+      "userRoles": [
+        "FrontDesk"
+      ],
+      "businessObjective": "Collect payment for stay",
+      "businessValue": "Accurate billing"
+    },
+    {
+      "id": "REQ-006",
+      "title": "Reservation security",
+      "description": "Reservations and guest data require authenticated authorized access.",
+      "type": "non-functional",
+      "acceptanceCriteria": [
+        "Guests access only their reservations",
+        "Staff actions are authorized by role"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-002"
+      ],
+      "priority": "Critical",
+      "nfrCategory": "Security",
+      "userRoles": [
+        "Guest",
+        "FrontDesk",
+        "Manager"
+      ],
+      "businessObjective": "Protect guest data",
+      "businessValue": "Trust and privacy"
+    },
+    {
+      "id": "REQ-007",
+      "title": "Availability reliability",
+      "description": "Room availability calculations must remain consistent under concurrent booking attempts.",
+      "type": "non-functional",
+      "acceptanceCriteria": [
+        "Concurrent booking attempts cannot sell the same room-night twice"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-001"
+      ],
+      "priority": "Critical",
+      "nfrCategory": "Reliability",
+      "userRoles": [
+        "Guest",
+        "FrontDesk"
+      ],
+      "businessObjective": "Prevent overbooking",
+      "businessValue": "Operational integrity"
+    }
+  ],
+  "businessRules": [
+    {
+      "id": "BR-001",
+      "name": "No overlapping room-nights",
+      "description": "A room cannot be reserved for overlapping dates.",
+      "relatedRequirements": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-007"
+      ],
+      "conditions": [
+        "Applicable business condition met"
+      ],
+      "outcomes": [
+        "Expected business outcome applied"
+      ]
+    },
+    {
+      "id": "BR-002",
+      "name": "Valid reservation before check-in",
+      "description": "Check-in requires an existing confirmed reservation.",
+      "relatedRequirements": [
+        "REQ-002",
+        "REQ-003",
+        "REQ-006"
+      ],
+      "conditions": [
+        "Applicable business condition met"
+      ],
+      "outcomes": [
+        "Expected business outcome applied"
+      ]
+    },
+    {
+      "id": "BR-003",
+      "name": "Seasonal rate application",
+      "description": "Billing uses the rate plan effective for each night of the stay.",
+      "relatedRequirements": [
+        "REQ-004",
+        "REQ-005"
+      ],
+      "conditions": [
+        "Applicable business condition met"
+      ],
+      "outcomes": [
+        "Expected business outcome applied"
+      ]
+    }
+  ],
+  "classification": {
+    "level": "Medium",
+    "engineeringComplexityScore": 52,
+    "justification": "Inventory, pricing, concurrent booking integrity, multiple staff roles.",
+    "confidence": "High"
+  },
+  "engineeringProfile": {
+    "modules": [
+      "Rooms",
+      "Reservations",
+      "FrontDesk",
+      "Billing"
+    ],
+    "integrations": [
+      "Email",
+      "Payment"
+    ],
+    "securityRequirements": [
+      "Authenticated guest access",
+      "Staff RBAC"
+    ]
+  },
+  "workflows": [
+    {
+      "id": "WF-001",
+      "name": "Guest booking",
+      "actors": [
+        "Guest"
+      ],
+      "steps": [
+        "Search",
+        "Select room",
+        "Reserve",
+        "Confirm"
+      ],
+      "relatedRequirements": [
+        "REQ-001",
+        "REQ-002"
+      ]
+    },
+    {
+      "id": "WF-002",
+      "name": "Check-in",
+      "actors": [
+        "FrontDesk"
+      ],
+      "steps": [
+        "Find reservation",
+        "Verify guest",
+        "Check in"
+      ],
+      "relatedRequirements": [
+        "REQ-003"
+      ]
+    }
+  ],
+  "integrations": [
+    {
+      "id": "INT-001",
+      "name": "Email confirmations",
+      "purpose": "Send reservation confirmations",
+      "provider": "SMTP",
+      "relatedRequirements": [
+        "REQ-002"
+      ]
+    },
+    {
+      "id": "INT-002",
+      "name": "Payment gateway",
+      "purpose": "Collect deposits or checkout payment",
+      "provider": "Stripe",
+      "relatedRequirements": [
+        "REQ-005"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "MOD-001",
+      "name": "Rooms",
+      "responsibility": "Inventory and rates",
+      "relatedRequirements": [
+        "REQ-001",
+        "REQ-004"
+      ]
+    },
+    {
+      "id": "MOD-002",
+      "name": "Reservations",
+      "responsibility": "Booking lifecycle",
+      "relatedRequirements": [
+        "REQ-002",
+        "REQ-006",
+        "REQ-007"
+      ]
+    },
+    {
+      "id": "MOD-003",
+      "name": "FrontDesk",
+      "responsibility": "Check-in and check-out",
+      "relatedRequirements": [
+        "REQ-003"
+      ]
+    },
+    {
+      "id": "MOD-004",
+      "name": "Billing",
+      "responsibility": "Stay charges",
+      "relatedRequirements": [
+        "REQ-005"
+      ]
+    }
+  ],
+  "technicalConstraints": [
+    "Web application",
+    "Relational database",
+    "Strong transactional consistency for bookings"
+  ],
+  "successCriteria": [
+    "Guests can book available rooms",
+    "Overbooking is prevented",
+    "Front desk can check in confirmed guests"
+  ],
+  "stakeholders": [
+    "Hotel Owner",
+    "Front Desk",
+    "Guests"
+  ],
+  "risks": [
+    {
+      "id": "RISK-001",
+      "category": "Technical Risk",
+      "description": "Race conditions causing overbooking.",
+      "probability": "Medium",
+      "impact": "Critical",
+      "affectedComponents": [
+        "Reservations"
+      ],
+      "mitigation": "Use transactional constraints on room-night inventory."
+    }
+  ]
+}

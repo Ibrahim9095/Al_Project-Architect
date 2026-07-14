@@ -25,6 +25,10 @@ describe("AnalysisEngine", () => {
       "Architecture Planning",
     );
     expect(result.qualityGates.every((gate) => gate.passed)).toBe(true);
+    expect(result.engineeringModel.complexityLevel).toBe("Small");
+    expect(result.engineeringModel.modules.length).toBeGreaterThan(0);
+    expect(result.engineeringModel.databaseCandidates.length).toBeGreaterThan(0);
+    expect(result.engineeringModel.apiCandidates.length).toBeGreaterThan(0);
   });
 
   it("rejects incomplete Discovery Output", () => {

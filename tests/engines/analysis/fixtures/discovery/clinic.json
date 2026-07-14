@@ -1,0 +1,345 @@
+{
+  "businessSummary": "A clinic booking platform for patients to schedule appointments and staff to manage clinician availability.",
+  "vision": "Provide reliable medical appointment scheduling with role-based access and auditability.",
+  "scope": {
+    "included": [
+      "Patient registration",
+      "Appointment booking",
+      "Staff scheduling",
+      "Notifications"
+    ],
+    "excluded": [
+      "Electronic health records charting",
+      "Insurance claims"
+    ],
+    "constraints": [
+      "Must support GDPR/privacy expectations"
+    ],
+    "assumptions": [
+      "Single clinic location"
+    ]
+  },
+  "personas": [
+    {
+      "id": "P-001",
+      "name": "Patient",
+      "role": "Patient",
+      "responsibilities": [
+        "Book appointments"
+      ],
+      "permissions": [
+        "create:appointment",
+        "read:own-appointment"
+      ]
+    },
+    {
+      "id": "P-002",
+      "name": "Clinician Staff",
+      "role": "Staff",
+      "responsibilities": [
+        "Manage availability",
+        "Confirm appointments"
+      ],
+      "permissions": [
+        "manage:schedule",
+        "confirm:appointment"
+      ]
+    },
+    {
+      "id": "P-003",
+      "name": "Clinic Admin",
+      "role": "Admin",
+      "responsibilities": [
+        "Manage users"
+      ],
+      "permissions": [
+        "manage:users"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "title": "Patient authentication",
+      "description": "Patients authenticate before managing appointments.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Unauthenticated users cannot book",
+        "Patients see only their appointments"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-001"
+      ],
+      "priority": "Critical",
+      "userRoles": [
+        "Patient"
+      ],
+      "businessObjective": "Protect patient data",
+      "businessValue": "Confidentiality"
+    },
+    {
+      "id": "REQ-002",
+      "title": "Book appointment",
+      "description": "Patients book available clinician slots.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Double booking prevented",
+        "Confirmation returned"
+      ],
+      "dependencies": [
+        "REQ-001"
+      ],
+      "relatedBusinessRules": [
+        "BR-002",
+        "BR-003"
+      ],
+      "priority": "Critical",
+      "userRoles": [
+        "Patient"
+      ],
+      "businessObjective": "Enable care access",
+      "businessValue": "Reduce phone load"
+    },
+    {
+      "id": "REQ-003",
+      "title": "Staff schedule management",
+      "description": "Staff define available slots.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Unavailable slots cannot be booked"
+      ],
+      "dependencies": [
+        "REQ-001"
+      ],
+      "relatedBusinessRules": [
+        "BR-002"
+      ],
+      "priority": "High",
+      "userRoles": [
+        "Staff"
+      ],
+      "businessObjective": "Control capacity",
+      "businessValue": "Accurate availability"
+    },
+    {
+      "id": "REQ-004",
+      "title": "Appointment notifications",
+      "description": "Patients receive booking confirmations.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Confirmation email/SMS is sent after booking"
+      ],
+      "dependencies": [
+        "REQ-002"
+      ],
+      "relatedBusinessRules": [
+        "BR-003"
+      ],
+      "priority": "High",
+      "userRoles": [
+        "Patient"
+      ],
+      "businessObjective": "Reduce no-shows",
+      "businessValue": "Better attendance"
+    },
+    {
+      "id": "REQ-005",
+      "title": "Privacy and security",
+      "description": "System enforces authentication, authorization, and privacy controls.",
+      "type": "non-functional",
+      "acceptanceCriteria": [
+        "RBAC on all protected actions",
+        "Access is audited"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-001"
+      ],
+      "priority": "Critical",
+      "nfrCategory": "Security",
+      "userRoles": [
+        "Patient",
+        "Staff",
+        "Admin"
+      ],
+      "businessObjective": "Protect health-related booking data",
+      "businessValue": "Compliance and trust"
+    },
+    {
+      "id": "REQ-006",
+      "title": "Booking latency",
+      "description": "Booking confirmation responds within 2 seconds under normal load.",
+      "type": "non-functional",
+      "acceptanceCriteria": [
+        "P95 confirmation <= 2s"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-002"
+      ],
+      "priority": "High",
+      "nfrCategory": "Performance",
+      "userRoles": [
+        "Patient"
+      ],
+      "businessObjective": "Keep booking usable",
+      "businessValue": "Lower abandonment"
+    }
+  ],
+  "businessRules": [
+    {
+      "id": "BR-001",
+      "name": "Authenticated access only",
+      "description": "Protected booking features require authentication.",
+      "relatedRequirements": [
+        "REQ-001",
+        "REQ-005"
+      ],
+      "conditions": [
+        "Applicable business condition met"
+      ],
+      "outcomes": [
+        "Expected business outcome applied"
+      ]
+    },
+    {
+      "id": "BR-002",
+      "name": "No double booking",
+      "description": "A slot can be assigned to only one patient.",
+      "relatedRequirements": [
+        "REQ-002",
+        "REQ-003",
+        "REQ-006"
+      ],
+      "conditions": [
+        "Applicable business condition met"
+      ],
+      "outcomes": [
+        "Expected business outcome applied"
+      ]
+    },
+    {
+      "id": "BR-003",
+      "name": "Cancellation window",
+      "description": "Patients may cancel up to 2 hours before start.",
+      "relatedRequirements": [
+        "REQ-002",
+        "REQ-004"
+      ],
+      "conditions": [
+        "Applicable business condition met"
+      ],
+      "outcomes": [
+        "Expected business outcome applied"
+      ]
+    }
+  ],
+  "classification": {
+    "level": "Small",
+    "engineeringComplexityScore": 36,
+    "justification": "Healthcare-adjacent scheduling with privacy needs.",
+    "confidence": "High"
+  },
+  "engineeringProfile": {
+    "modules": [
+      "Authentication",
+      "Appointments",
+      "Scheduling",
+      "Notifications"
+    ],
+    "integrations": [
+      "Email"
+    ],
+    "securityRequirements": [
+      "RBAC",
+      "Audit logging"
+    ]
+  },
+  "workflows": [
+    {
+      "id": "WF-001",
+      "name": "Book appointment",
+      "actors": [
+        "Patient"
+      ],
+      "steps": [
+        "Login",
+        "Select clinician",
+        "Select slot",
+        "Confirm"
+      ],
+      "relatedRequirements": [
+        "REQ-001",
+        "REQ-002"
+      ]
+    }
+  ],
+  "integrations": [
+    {
+      "id": "INT-001",
+      "name": "Email notifications",
+      "purpose": "Send booking confirmations",
+      "provider": "SMTP",
+      "relatedRequirements": [
+        "REQ-004"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "MOD-001",
+      "name": "Authentication",
+      "responsibility": "Identity and access",
+      "relatedRequirements": [
+        "REQ-001",
+        "REQ-005"
+      ]
+    },
+    {
+      "id": "MOD-002",
+      "name": "Appointments",
+      "responsibility": "Booking lifecycle",
+      "relatedRequirements": [
+        "REQ-002",
+        "REQ-004"
+      ]
+    },
+    {
+      "id": "MOD-003",
+      "name": "Scheduling",
+      "responsibility": "Availability management",
+      "relatedRequirements": [
+        "REQ-003"
+      ]
+    }
+  ],
+  "technicalConstraints": [
+    "Web application",
+    "Relational database",
+    "GDPR"
+  ],
+  "successCriteria": [
+    "Patients can book online",
+    "No double booking",
+    "Staff can manage availability"
+  ],
+  "stakeholders": [
+    "Clinic Owner",
+    "Patients",
+    "Staff"
+  ],
+  "risks": [
+    {
+      "id": "RISK-001",
+      "category": "Security Risk",
+      "description": "Unauthorized access to patient appointments.",
+      "probability": "Low",
+      "impact": "High",
+      "affectedComponents": [
+        "Authentication"
+      ],
+      "mitigation": "Enforce RBAC and audit logs."
+    }
+  ]
+}

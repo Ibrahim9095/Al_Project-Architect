@@ -394,6 +394,75 @@ export interface QualityGateResult {
   passed: boolean;
 }
 
+
+export interface EngineeringFeature {
+  id: string;
+  name: string;
+  description: string;
+  requirementIds: string[];
+  moduleId?: string;
+  priority: Priority;
+}
+
+export interface DatabaseCandidate {
+  entity: string;
+  description: string;
+  source: string;
+  relatedModules: string[];
+  relatedRequirements: string[];
+}
+
+export interface ApiCandidate {
+  resource: string;
+  operations: Array<"GET" | "POST" | "PUT" | "PATCH" | "DELETE">;
+  description: string;
+  relatedRequirements: string[];
+  relatedModules: string[];
+}
+
+/**
+ * Verified Engineering Model produced by the Analysis Engine.
+ * This is the structured handoff artifact for Architecture Planning.
+ */
+export interface EngineeringModel {
+  projectClassification: ProjectClassification;
+  businessGoals: string[];
+  userRoles: Array<{
+    id: string;
+    name: string;
+    role: string;
+    responsibilities: string[];
+    permissions: string[];
+  }>;
+  modules: Array<{
+    id: string;
+    name: string;
+    responsibility: string;
+    relatedRequirements: string[];
+    featureIds: string[];
+  }>;
+  features: EngineeringFeature[];
+  businessRules: BusinessRule[];
+  databaseCandidates: DatabaseCandidate[];
+  apiCandidates: ApiCandidate[];
+  externalIntegrations: Array<{
+    id: string;
+    name: string;
+    purpose: string;
+    provider: string;
+    relatedRequirements: string[];
+  }>;
+  securityRequirements: string[];
+  nonFunctionalRequirements: Array<{
+    id: string;
+    title: string;
+    description: string;
+    category: string;
+    priority: Priority;
+  }>;
+  complexityLevel: ProjectClassification["level"];
+}
+
 /**
  * Complete Analysis Engine result — handoff to Architecture Engine when approved.
  */
@@ -411,6 +480,7 @@ export interface AnalysisResult {
   qualityGates: QualityGateResult[];
   recommendations: EngineeringRecommendation[];
   reports: AnalysisReports;
+  engineeringModel: EngineeringModel;
   approvedForArchitecture: boolean;
   analyzedAt: string;
 }

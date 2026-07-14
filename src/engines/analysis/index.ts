@@ -7,3 +7,8 @@
 
 export { AnalysisEngine, createAnalysisEngine } from "./AnalysisEngine.js";
 export type * from "./types.js";
+
+export {
+  buildEngineeringModel,
+  validateEngineeringModel,
+} from "./engineeringModel.js";

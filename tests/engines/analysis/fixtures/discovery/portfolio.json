@@ -1,0 +1,277 @@
+{
+  "businessSummary": "A personal portfolio website to present projects, skills, and a contact form for inbound opportunities.",
+  "vision": "Provide a fast, credible personal portfolio that converts visitors into contact inquiries.",
+  "scope": {
+    "included": [
+      "Home",
+      "Projects showcase",
+      "About",
+      "Contact form"
+    ],
+    "excluded": [
+      "E-commerce",
+      "User accounts",
+      "Blog CMS"
+    ],
+    "constraints": [
+      "Static-friendly hosting preferred"
+    ],
+    "assumptions": [
+      "Single language at launch"
+    ]
+  },
+  "personas": [
+    {
+      "id": "P-001",
+      "name": "Visitor",
+      "role": "Visitor",
+      "responsibilities": [
+        "Browse portfolio",
+        "Send inquiry"
+      ],
+      "permissions": [
+        "read:content",
+        "create:contact-message"
+      ]
+    },
+    {
+      "id": "P-002",
+      "name": "Owner",
+      "role": "Owner",
+      "responsibilities": [
+        "Update project content"
+      ],
+      "permissions": [
+        "manage:content"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "title": "View projects",
+      "description": "Visitors can browse featured projects with summaries.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Projects list renders",
+        "Each project has title and summary"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-001"
+      ],
+      "priority": "High",
+      "userRoles": [
+        "Visitor"
+      ],
+      "businessObjective": "Demonstrate experience",
+      "businessValue": "Credibility"
+    },
+    {
+      "id": "REQ-002",
+      "title": "Submit contact form",
+      "description": "Visitors can send a message with name, email, and details.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Form validates email format",
+        "Successful submission shows confirmation"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-002"
+      ],
+      "priority": "Critical",
+      "userRoles": [
+        "Visitor"
+      ],
+      "businessObjective": "Capture leads",
+      "businessValue": "Inbound opportunities"
+    },
+    {
+      "id": "REQ-003",
+      "title": "Owner content update",
+      "description": "Owner can update project entries.",
+      "type": "functional",
+      "acceptanceCriteria": [
+        "Owner can add and edit projects"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-001"
+      ],
+      "priority": "High",
+      "userRoles": [
+        "Owner"
+      ],
+      "businessObjective": "Keep portfolio current",
+      "businessValue": "Accurate representation"
+    },
+    {
+      "id": "REQ-004",
+      "title": "Form spam protection",
+      "description": "Contact form must reduce spam submissions.",
+      "type": "non-functional",
+      "acceptanceCriteria": [
+        "Bot submissions are challenged or filtered"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-002"
+      ],
+      "priority": "High",
+      "nfrCategory": "Security",
+      "userRoles": [
+        "Visitor"
+      ],
+      "businessObjective": "Protect inbox",
+      "businessValue": "Reduce noise"
+    },
+    {
+      "id": "REQ-005",
+      "title": "Performance",
+      "description": "Portfolio pages should load quickly on mobile networks.",
+      "type": "non-functional",
+      "acceptanceCriteria": [
+        "LCP under 2.5s on reference mobile profile"
+      ],
+      "dependencies": [],
+      "relatedBusinessRules": [
+        "BR-001"
+      ],
+      "priority": "High",
+      "nfrCategory": "Performance",
+      "userRoles": [
+        "Visitor"
+      ],
+      "businessObjective": "Keep visitors engaged",
+      "businessValue": "Lower bounce rate"
+    }
+  ],
+  "businessRules": [
+    {
+      "id": "BR-001",
+      "name": "Published projects only",
+      "description": "Visitors may view only published projects.",
+      "relatedRequirements": [
+        "REQ-001",
+        "REQ-003",
+        "REQ-005"
+      ],
+      "conditions": [
+        "Applicable business condition met"
+      ],
+      "outcomes": [
+        "Expected business outcome applied"
+      ]
+    },
+    {
+      "id": "BR-002",
+      "name": "Valid contact submissions",
+      "description": "Contact messages require a valid email and non-empty message body.",
+      "relatedRequirements": [
+        "REQ-002",
+        "REQ-004"
+      ],
+      "conditions": [
+        "Applicable business condition met"
+      ],
+      "outcomes": [
+        "Expected business outcome applied"
+      ]
+    }
+  ],
+  "classification": {
+    "level": "Tiny",
+    "engineeringComplexityScore": 12,
+    "justification": "Simple content site with contact capture.",
+    "confidence": "High"
+  },
+  "engineeringProfile": {
+    "modules": [
+      "Projects",
+      "Contact",
+      "Content"
+    ],
+    "integrations": [
+      "Email"
+    ],
+    "securityRequirements": [
+      "Contact form spam protection"
+    ]
+  },
+  "workflows": [
+    {
+      "id": "WF-001",
+      "name": "Contact inquiry",
+      "actors": [
+        "Visitor"
+      ],
+      "steps": [
+        "Open contact",
+        "Fill form",
+        "Submit"
+      ],
+      "relatedRequirements": [
+        "REQ-002"
+      ]
+    }
+  ],
+  "integrations": [
+    {
+      "id": "INT-001",
+      "name": "Email delivery",
+      "purpose": "Deliver contact form messages to owner inbox",
+      "provider": "SMTP",
+      "relatedRequirements": [
+        "REQ-002"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "MOD-001",
+      "name": "Projects",
+      "responsibility": "Project showcase content",
+      "relatedRequirements": [
+        "REQ-001",
+        "REQ-003"
+      ]
+    },
+    {
+      "id": "MOD-002",
+      "name": "Contact",
+      "responsibility": "Inquiry capture",
+      "relatedRequirements": [
+        "REQ-002",
+        "REQ-004"
+      ]
+    }
+  ],
+  "technicalConstraints": [
+    "Static-friendly web deployment",
+    "Optional lightweight backend for contact form"
+  ],
+  "successCriteria": [
+    "Visitors can view projects",
+    "Visitors can submit contact form",
+    "Owner can update project content"
+  ],
+  "stakeholders": [
+    "Portfolio Owner",
+    "Recruiters",
+    "Clients"
+  ],
+  "risks": [
+    {
+      "id": "RISK-001",
+      "category": "Security Risk",
+      "description": "Contact form spam.",
+      "probability": "Medium",
+      "impact": "Medium",
+      "affectedComponents": [
+        "Contact"
+      ],
+      "mitigation": "Add spam protection and rate limiting."
+    }
+  ]
+}

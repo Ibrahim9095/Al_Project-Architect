@@ -17,6 +17,10 @@ import {
   buildRecommendations,
   generateReports,
 } from "./reports/generateReports.js";
+import {
+  buildEngineeringModel,
+  validateEngineeringModel,
+} from "./engineeringModel.js";
 import type { AnalysisResult, DiscoveryOutput } from "./types.js";
 
 /**
@@ -110,12 +114,34 @@ export class AnalysisEngine {
       architectureReady: architectureReadiness.ready,
     });
 
-    const recommendations = buildRecommendations({
+    const engineeringModel = buildEngineeringModel(discovery);
+    const engineeringModelGaps = validateEngineeringModel(engineeringModel);
+
+    let recommendations = buildRecommendations({
       gaps: gapAnalysis,
       risks: riskAnalysis,
       consistency: consistencyAnalysis,
       requirements: requirementAnalysis,
     });
+
+    if (engineeringModelGaps.length > 0) {
+      recommendations = [
+        ...recommendations,
+        ...engineeringModelGaps.map((section, index) => ({
+          id: `REC-MODEL-${String(index + 1).padStart(3, "0")}`,
+          problem: `Engineering Model missing required section: ${section}.`,
+          analysis:
+            "Analysis Engine could not assemble a complete Engineering Model from Discovery Output.",
+          recommendedSolution:
+            "Return to Discovery and supply the missing engineering information.",
+          benefits: ["Complete Architecture handoff model"],
+          risks: ["Architecture Planning would proceed with incomplete context"],
+          alternatives: ["Explicitly accept residual gap with Project Owner approval"],
+          priority: "High" as const,
+          impact: "High" as const,
+        })),
+      ];
+    }
 
     const reports = generateReports({
       discovery,
@@ -152,6 +178,7 @@ export class AnalysisEngine {
       qualityGates,
       recommendations,
       reports,
+      engineeringModel,
       approvedForArchitecture: decision.approvedForArchitecture,
       analyzedAt: new Date().toISOString(),
     };
