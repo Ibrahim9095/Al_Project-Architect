@@ -39,7 +39,7 @@ Not applicable — scoped implementation task.
 
 ## Pull Request Number
 
-PENDING_PR
+#7
 
 ## Files Changed
 
