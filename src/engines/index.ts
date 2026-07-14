@@ -77,6 +77,10 @@ export {
   DocumentationService,
   documentationEngine,
   documentationService,
+  DocumentationCore,
+  createDocumentationCore,
+  validateEngineeringModelForDocumentation,
+  DOCUMENTATION_PIPELINE_CONTRACT,
 } from "./documentation";
 export type {
   DocumentationArtifactKind,
@@ -88,6 +92,8 @@ export type {
   DocumentationJobStatus,
   DocumentationOutput,
   IDocumentationService,
+  DocumentationCoreResult,
+  DocumentationContext,
 } from "./documentation";
 
 export {
